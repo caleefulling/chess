@@ -1,0 +1,6 @@
+/Users/caleefulling/Projects/Chess/Chess/obj/Debug/Chess.csproj.CoreCompileInputs.cache
+/Users/caleefulling/Projects/Chess/Chess/bin/Debug/Chess.exe
+/Users/caleefulling/Projects/Chess/Chess/bin/Debug/Chess.pdb
+/Users/caleefulling/Projects/Chess/Chess/obj/Debug/Chess.csprojAssemblyReference.cache
+/Users/caleefulling/Projects/Chess/Chess/obj/Debug/Chess.exe
+/Users/caleefulling/Projects/Chess/Chess/obj/Debug/Chess.pdb
