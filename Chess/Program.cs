@@ -21,7 +21,6 @@ namespace Chess
                 if (command.Contains("stats"))
                 {
                     Console.WriteLine($"black score: {board.BlackScore}, white score: {board.WhiteScore}");
-                    continue;
                 }
                 else if (command.Trim() == "0-0")
                 {
@@ -85,8 +84,9 @@ namespace Chess
                                 board.MovePiece(piece, Convert.ToInt32(endPos.Key), Convert.ToInt32(endPos.Value));
                                 validMove = true;
 
-                                // see if there's a check
-                                if (board.WhiteKing.IsInCheck(board) || board.BlackKing.IsInCheck(board))
+                                // see if there's a resulting check
+                                if ((board.ColorToMove == PieceColorEnum.Black && board.WhiteKing.IsInCheck(board))
+                                    || (board.ColorToMove == PieceColorEnum.White && board.BlackKing.IsInCheck(board)))
                                 {
                                     Console.WriteLine("check");
                                 }

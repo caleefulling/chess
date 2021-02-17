@@ -156,9 +156,8 @@ namespace Chess.Class.Pieces
 
         public List<KeyValuePair<int, int>> GetCheckPath(Board.Board board)
         {
-            List<KeyValuePair<int, int>> positionsReturn = new List<KeyValuePair<int, int>>();
+            List<KeyValuePair<int, int>> checkPath = new List<KeyValuePair<int, int>>();
 
-            bool isCheckPath = false;
             int row = CurrentLocation_x;
             int col = CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
@@ -170,17 +169,18 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece != null)
                     {
-                        positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                        checkPath.Add(new KeyValuePair<int, int>(row, col));
                     }
                     else
                     {
                         if (piece.Color != Color)
                         {
+                            checkPath.Add(new KeyValuePair<int, int>(row, col));
+
                             if (piece.Type == PieceTypeEnum.King)
                             {
-                                isCheckPath = true;
+                                return checkPath;
                             }
-                            positionsReturn.Add(new KeyValuePair<int, int>(row, col));
                             break;
                         }
                         else
@@ -195,15 +195,7 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            if (isCheckPath)
-            {
-                return positionsReturn;
-            }
-            else
-            {
-                positionsReturn = new List<KeyValuePair<int, int>>();
-            }
-
+            checkPath = new List<KeyValuePair<int, int>>();
             row = CurrentLocation_x;
             col = CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
@@ -215,17 +207,18 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                        checkPath.Add(new KeyValuePair<int, int>(row, col));
                     }
                     else
                     {
                         if (piece.Color != Color)
                         {
+                            checkPath.Add(new KeyValuePair<int, int>(row, col));
+
                             if (piece.Type == PieceTypeEnum.King)
                             {
-                                isCheckPath = true;
+                                return checkPath;
                             }
-                            positionsReturn.Add(new KeyValuePair<int, int>(row, col));
                         }
                         break;
                     }
@@ -236,15 +229,7 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            if (isCheckPath)
-            {
-                return positionsReturn;
-            }
-            else
-            {
-                positionsReturn = new List<KeyValuePair<int, int>>();
-            }
-
+            checkPath = new List<KeyValuePair<int, int>>();
             row = CurrentLocation_x;
             col = CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
@@ -256,17 +241,18 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                        checkPath.Add(new KeyValuePair<int, int>(row, col));
                     }
                     else
                     {
                         if (piece.Color != Color)
                         {
+                            checkPath.Add(new KeyValuePair<int, int>(row, col));
+
                             if (piece.Type == PieceTypeEnum.King)
                             {
-                                isCheckPath = true;
+                                return checkPath;
                             }
-                            positionsReturn.Add(new KeyValuePair<int, int>(row, col));
                         }
                         break;
                     }
@@ -277,15 +263,7 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            if (isCheckPath)
-            {
-                return positionsReturn;
-            }
-            else
-            {
-                positionsReturn = new List<KeyValuePair<int, int>>();
-            }
-
+            checkPath = new List<KeyValuePair<int, int>>();
             row = CurrentLocation_x;
             col = CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
@@ -297,17 +275,18 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                        checkPath.Add(new KeyValuePair<int, int>(row, col));
                     }
                     else
                     {
                         if (piece.Color != Color)
                         {
+                            checkPath.Add(new KeyValuePair<int, int>(row, col));
+
                             if (piece.Type == PieceTypeEnum.King)
                             {
-                                isCheckPath = true;
+                                return checkPath;
                             }
-                            positionsReturn.Add(new KeyValuePair<int, int>(row, col));
                         }
                         break;
                     }
@@ -318,16 +297,7 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            if (isCheckPath)
-            {
-                return positionsReturn;
-            }
-            else
-            {
-                positionsReturn = new List<KeyValuePair<int, int>>();
-            }
-
-            return positionsReturn;
+            return new List<KeyValuePair<int, int>>();
         }
 
         public void Move(int x, int y)

@@ -1,14 +1,11 @@
 ﻿<Properties StartupConfiguration="{E2E6BF67-78F6-47CC-914F-8B1BAF85C569}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Chess/Class/Pieces/Pawn.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Chess/Class/Pieces/Rook.cs">
     <Files>
-      <File FileName="Chess/Program.cs" Line="1" Column="1" />
-      <File FileName="Chess/Class/Board.cs" Line="336" Column="1" />
-      <File FileName="Chess/Class/Pieces/IPiece.cs" Line="1" Column="1" />
-      <File FileName="Chess/Class/Pieces/King.cs" Line="223" Column="66" />
-      <File FileName="Chess/Class/Pieces/Pawn.cs" Line="110" Column="1" />
-      <File FileName="Chess/Class/Pieces/Bishop.cs" Line="198" Column="1" />
-      <File FileName="Chess/Class/Pieces/Knight.cs" Line="113" Column="1" />
-      <File FileName="Chess/Class/Pieces/Queen.cs" Line="1" Column="1" />
+      <File FileName="Chess/Class/Board.cs" Line="103" Column="52" />
+      <File FileName="Chess/Class/Pieces/King.cs" Line="359" Column="18" />
+      <File FileName="Chess/Class/Pieces/Bishop.cs" Line="298" Column="14" />
+      <File FileName="Chess/Class/Pieces/Queen.cs" Line="408" Column="1" />
+      <File FileName="Chess/Class/Pieces/Rook.cs" Line="178" Column="31" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +14,7 @@
             <Node name="Chess" expanded="True">
               <Node name="Class" expanded="True">
                 <Node name="Pieces" expanded="True">
-                  <Node name="Pawn.cs" selected="True" />
+                  <Node name="Rook.cs" selected="True" />
                 </Node>
               </Node>
             </Node>
