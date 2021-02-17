@@ -274,7 +274,7 @@ namespace Chess.Class.Pieces
                 if (row >= 0 && col >= 0)
                 {
                     var piece = board.Instance[row, col];
-                    if (piece != null)
+                    if (piece == null)
                     {
                         checkPath.Add(new KeyValuePair<int, int>(row, col));
                     }

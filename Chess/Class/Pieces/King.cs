@@ -193,7 +193,6 @@ namespace Chess.Class.Pieces
 
         public bool IsInCheck(Board.Board board)
         {
-
             foreach (var piece in board.Instance)
             {
                 if (piece != null && piece.Type != PieceTypeEnum.King && piece.Color != this.Color)
@@ -214,7 +213,7 @@ namespace Chess.Class.Pieces
             bool isInCheck = false;
             foreach (var piece in board.Instance)
             {
-                if (piece != null && piece != this && piece.Type != PieceTypeEnum.King && piece.Color != this.Color)
+                if (piece != null && piece.Type != PieceTypeEnum.King && piece.Color != this.Color)
                 {
                     var pieceMoves = piece.AvailableMoves(board);
                     if (pieceMoves.Contains(new KeyValuePair<int, int>(this.CurrentLocation_x, this.CurrentLocation_y)))
@@ -223,7 +222,7 @@ namespace Chess.Class.Pieces
                         // in check, now check conditions for mate -
                         //   1 - all possible moves for king result in checks
                         //   2 - the piece putting king in check isn't capturable
-                        //   3 - no piece is able to get inbetween the check route
+                        //   3 - no piece can intercept the check path
 
                         // 1
                         var kingMoves = this.AvailableMoves(board);
@@ -243,7 +242,7 @@ namespace Chess.Class.Pieces
                         // 2/3
                         foreach (var defensePiece in board.Instance)
                         {
-                            if (defensePiece != null && piece.Color != defensePiece.Color)
+                            if (defensePiece != null && defensePiece.Color != piece.Color)
                             {
                                 // 2. see if a defense piece can capture the piece putting king in check
                                 var defensePieceMoves = defensePiece.AvailableMoves(board);
@@ -266,7 +265,7 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            return (true && isInCheck);
+            return (isInCheck && true);
         }
 
         public (bool canCastle, string message) CanCastleOnKingSide(Board.Board board)
