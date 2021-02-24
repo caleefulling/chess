@@ -16,8 +16,8 @@ pieces -
   
   
   
-to make moves, input the start position and end position. 
-
+  
+  
 making moves -
 
   d2 d4  = piece at column d, row 2 moves to column d, row 4 (if it's a valid move). will handle captures.
