@@ -39,9 +39,10 @@
     <Compile Include="Class\Pieces\Knight.cs" />
     <Compile Include="Class\Pieces\Rook.cs" />
     <Compile Include="Class\Pieces\IPiece.cs" />
-    <Compile Include="Class\Enum\PieceColorEnum.cs" />
-    <Compile Include="Class\Enum\PieceTypeEnum.cs" />
+    <Compile Include="Class\Enum\ColorEnum.cs" />
+    <Compile Include="Class\Enum\TypeEnum.cs" />
     <Compile Include="Class\Board.cs" />
+    <Compile Include="Class\Move.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Class\" />

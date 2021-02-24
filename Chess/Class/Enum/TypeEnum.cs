@@ -1,6 +1,6 @@
 ﻿namespace Chess.Class.Enum
 {
-    public enum PieceTypeEnum
+    public enum TypeEnum
     {
         Bishop,
         Pawn,

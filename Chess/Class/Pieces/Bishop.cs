@@ -7,9 +7,9 @@ namespace Chess.Class.Pieces
     [Serializable]
     public class Bishop : IPiece
     {
-        public PieceTypeEnum Type { get; set; }
+        public TypeEnum Type { get; set; }
 
-        public PieceColorEnum Color { get; set; }
+        public ColorEnum Color { get; set; }
 
         public char BoardNotation { get; set; }
 
@@ -20,9 +20,9 @@ namespace Chess.Class.Pieces
         public int CurrentLocation_y { get; set; }
 
 
-        public Bishop(int x, int y, PieceColorEnum color)
+        public Bishop(int x, int y, ColorEnum color)
         {
-            Type = PieceTypeEnum.Bishop;
+            Type = TypeEnum.Bishop;
             BoardNotation = 'B';
             Value = 3;
             Color = color;
@@ -33,7 +33,7 @@ namespace Chess.Class.Pieces
 
         public List<KeyValuePair<int, int>> AvailableMoves(Board.Board board)
         {
-            List<KeyValuePair<int, int>> positionsReturn = new List<KeyValuePair<int, int>>();
+            List<KeyValuePair<int, int>> availableMoves = new List<KeyValuePair<int, int>>();
 
             int row = CurrentLocation_x;
             int col = CurrentLocation_y;
@@ -46,13 +46,13 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                        availableMoves.Add(new KeyValuePair<int, int>(row, col));
                     }
                     else
                     {
-                        if (piece.Color != Color)
+                        if (piece.Color != this.Color)
                         {
-                            positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                            availableMoves.Add(new KeyValuePair<int, int>(row, col));
                             break;
                         }
                         else
@@ -78,13 +78,13 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                        availableMoves.Add(new KeyValuePair<int, int>(row, col));
                     }
                     else
                     {
-                        if (piece.Color != Color)
+                        if (piece.Color != this.Color)
                         {
-                            positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                            availableMoves.Add(new KeyValuePair<int, int>(row, col));
                         }
                         break;
                     }
@@ -106,13 +106,13 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                        availableMoves.Add(new KeyValuePair<int, int>(row, col));
                     }
                     else
                     {
-                        if (piece.Color != Color)
+                        if (piece.Color != this.Color)
                         {
-                            positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                            availableMoves.Add(new KeyValuePair<int, int>(row, col));
                         }
                         break;
                     }
@@ -134,13 +134,13 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                        availableMoves.Add(new KeyValuePair<int, int>(row, col));
                     }
                     else
                     {
-                        if (piece.Color != Color)
+                        if (piece.Color != this.Color)
                         {
-                            positionsReturn.Add(new KeyValuePair<int, int>(row, col));
+                            availableMoves.Add(new KeyValuePair<int, int>(row, col));
                         }
                         break;
                     }
@@ -151,7 +151,130 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            return positionsReturn;
+            return availableMoves;
+        }
+
+        public List<Move> AvailableMoves(Board.Board board, bool? test)
+        {
+            List<Move> moves = new List<Move>();
+
+            int row = CurrentLocation_x;
+            int col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row -= 1;
+                col -= 1;
+                if (row >= 0 && col >= 0)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        moves.Add(new Move(this, row, col));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            moves.Add(new Move(this, row, col, piece.Value));
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row -= 1;
+                col += 1;
+                if (row >= 0 && col <= 7)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        moves.Add(new Move(this, row, col));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            moves.Add(new Move(this, row, col, piece.Value));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row += 1;
+                col += 1;
+                if (row <= 7 && col <= 7)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        moves.Add(new Move(this, row, col));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            moves.Add(new Move(this, row, col, piece.Value));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row += 1;
+                col -= 1;
+                if (row <= 7 && col >= 0)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        moves.Add(new Move(this, row, col));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            moves.Add(new Move(this, row, col, piece.Value));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return moves;
         }
 
         public List<KeyValuePair<int, int>> GetCheckPath(Board.Board board)
@@ -173,11 +296,11 @@ namespace Chess.Class.Pieces
                     }
                     else
                     {
-                        if (piece.Color != Color)
+                        if (piece.Color != this.Color)
                         {
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
 
-                            if (piece.Type == PieceTypeEnum.King)
+                            if (piece.Type == TypeEnum.King)
                             {
                                 return checkPath;
                             }
@@ -211,11 +334,11 @@ namespace Chess.Class.Pieces
                     }
                     else
                     {
-                        if (piece.Color != Color)
+                        if (piece.Color != this.Color)
                         {
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
 
-                            if (piece.Type == PieceTypeEnum.King)
+                            if (piece.Type == TypeEnum.King)
                             {
                                 return checkPath;
                             }
@@ -245,11 +368,11 @@ namespace Chess.Class.Pieces
                     }
                     else
                     {
-                        if (piece.Color != Color)
+                        if (piece.Color != this.Color)
                         {
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
 
-                            if (piece.Type == PieceTypeEnum.King)
+                            if (piece.Type == TypeEnum.King)
                             {
                                 return checkPath;
                             }
@@ -279,11 +402,11 @@ namespace Chess.Class.Pieces
                     }
                     else
                     {
-                        if (piece.Color != Color)
+                        if (piece.Color != this.Color)
                         {
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
 
-                            if (piece.Type == PieceTypeEnum.King)
+                            if (piece.Type == TypeEnum.King)
                             {
                                 return checkPath;
                             }

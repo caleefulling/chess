@@ -13,7 +13,7 @@ namespace Chess.Class.Board
     {
         public IPiece[,] Instance { get; set; }
 
-        public PieceColorEnum ColorToMove { get; set; }
+        public ColorEnum ColorToMove { get; set; }
 
         public King BlackKing { get; set; }
 
@@ -27,74 +27,76 @@ namespace Chess.Class.Board
 
         public List<IPiece> CapturedWhitePieces { get; set; }
 
+        public int MovesSinceLastCaptureOrPawnMove { get; set; }
+
         public Board()
         {
-            ColorToMove = PieceColorEnum.White;
+            ColorToMove = ColorEnum.White;
             Instance = new IPiece[8, 8];
             CapturedBlackPieces = new List<IPiece>();
             CapturedWhitePieces = new List<IPiece>();
 
             // black
-            Instance[0, 0] = new Rook(0, 0, PieceColorEnum.Black);
-            Instance[0, 1] = new Knight(0, 1, PieceColorEnum.Black);
-            Instance[0, 2] = new Bishop(0, 2, PieceColorEnum.Black);
-            Instance[0, 3] = new Queen(0, 3, PieceColorEnum.Black);
-            Instance[0, 4] = new King(0, 4, PieceColorEnum.Black);
+            Instance[0, 0] = new Rook(0, 0, ColorEnum.Black);
+            Instance[0, 1] = new Knight(0, 1, ColorEnum.Black);
+            Instance[0, 2] = new Bishop(0, 2, ColorEnum.Black);
+            Instance[0, 3] = new Queen(0, 3, ColorEnum.Black);
+            Instance[0, 4] = new King(0, 4, ColorEnum.Black);
             BlackKing = (King)Instance[0, 4];
-            Instance[0, 5] = new Bishop(0, 5, PieceColorEnum.Black);
-            Instance[0, 6] = new Knight(0, 6, PieceColorEnum.Black);
-            Instance[0, 7] = new Rook(0, 7, PieceColorEnum.Black);
+            Instance[0, 5] = new Bishop(0, 5, ColorEnum.Black);
+            Instance[0, 6] = new Knight(0, 6, ColorEnum.Black);
+            Instance[0, 7] = new Rook(0, 7, ColorEnum.Black);
 
-            Instance[1, 0] = new Pawn(1, 0, PieceColorEnum.Black);
-            Instance[1, 1] = new Pawn(1, 1, PieceColorEnum.Black);
-            Instance[1, 2] = new Pawn(1, 2, PieceColorEnum.Black);
-            Instance[1, 3] = new Pawn(1, 3, PieceColorEnum.Black);
-            Instance[1, 4] = new Pawn(1, 4, PieceColorEnum.Black);
-            Instance[1, 5] = new Pawn(1, 5, PieceColorEnum.Black);
-            Instance[1, 6] = new Pawn(1, 6, PieceColorEnum.Black);
-            Instance[1, 7] = new Pawn(1, 7, PieceColorEnum.Black);
+            Instance[1, 0] = new Pawn(1, 0, ColorEnum.Black);
+            Instance[1, 1] = new Pawn(1, 1, ColorEnum.Black);
+            Instance[1, 2] = new Pawn(1, 2, ColorEnum.Black);
+            Instance[1, 3] = new Pawn(1, 3, ColorEnum.Black);
+            Instance[1, 4] = new Pawn(1, 4, ColorEnum.Black);
+            Instance[1, 5] = new Pawn(1, 5, ColorEnum.Black);
+            Instance[1, 6] = new Pawn(1, 6, ColorEnum.Black);
+            Instance[1, 7] = new Pawn(1, 7, ColorEnum.Black);
 
             // white
-            Instance[6, 0] = new Pawn(6, 0, PieceColorEnum.White);
-            Instance[6, 1] = new Pawn(6, 1, PieceColorEnum.White);
-            Instance[6, 2] = new Pawn(6, 2, PieceColorEnum.White);
-            Instance[6, 3] = new Pawn(6, 3, PieceColorEnum.White);
-            Instance[6, 4] = new Pawn(6, 4, PieceColorEnum.White);
-            Instance[6, 5] = new Pawn(6, 5, PieceColorEnum.White);
-            Instance[6, 6] = new Pawn(6, 6, PieceColorEnum.White);
-            Instance[6, 7] = new Pawn(6, 7, PieceColorEnum.White);
+            Instance[6, 0] = new Pawn(6, 0, ColorEnum.White);
+            Instance[6, 1] = new Pawn(6, 1, ColorEnum.White);
+            Instance[6, 2] = new Pawn(6, 2, ColorEnum.White);
+            Instance[6, 3] = new Pawn(6, 3, ColorEnum.White);
+            Instance[6, 4] = new Pawn(6, 4, ColorEnum.White);
+            Instance[6, 5] = new Pawn(6, 5, ColorEnum.White);
+            Instance[6, 6] = new Pawn(6, 6, ColorEnum.White);
+            Instance[6, 7] = new Pawn(6, 7, ColorEnum.White);
 
-            Instance[7, 0] = new Rook(7, 0, PieceColorEnum.White);
-            Instance[7, 1] = new Knight(7, 1, PieceColorEnum.White);
-            Instance[7, 2] = new Bishop(7, 2, PieceColorEnum.White);
-            Instance[7, 3] = new Queen(7, 3, PieceColorEnum.White);
-            Instance[7, 4] = new King(7, 4, PieceColorEnum.White);
+            Instance[7, 0] = new Rook(7, 0, ColorEnum.White);
+            Instance[7, 1] = new Knight(7, 1, ColorEnum.White);
+            Instance[7, 2] = new Bishop(7, 2, ColorEnum.White);
+            Instance[7, 3] = new Queen(7, 3, ColorEnum.White);
+            Instance[7, 4] = new King(7, 4, ColorEnum.White);
             WhiteKing = (King)Instance[7, 4];
-            Instance[7, 5] = new Bishop(7, 5, PieceColorEnum.White);
-            Instance[7, 6] = new Knight(7, 6, PieceColorEnum.White);
-            Instance[7, 7] = new Rook(7, 7, PieceColorEnum.White);
+            Instance[7, 5] = new Bishop(7, 5, ColorEnum.White);
+            Instance[7, 6] = new Knight(7, 6, ColorEnum.White);
+            Instance[7, 7] = new Rook(7, 7, ColorEnum.White);
 
 
             // test checkmate
-            //Instance[0, 0] = new King(0, 0, PieceColorEnum.Black);
+            //Instance[0, 0] = new King(0, 0, ColorEnum.Black);
             //BlackKing = (King)Instance[0, 0];
 
-            //Instance[3, 3] = new Queen(3, 3, PieceColorEnum.White);
-            //Instance[7, 4] = new King(7, 4, PieceColorEnum.White);
+            //Instance[3, 3] = new Queen(3, 3, ColorEnum.White);
+            //Instance[7, 4] = new King(7, 4, ColorEnum.White);
             //WhiteKing = (King)Instance[7, 4];
-            //Instance[2, 1] = new Rook(2, 1, PieceColorEnum.White);
+            //Instance[2, 1] = new Rook(2, 1, ColorEnum.White);
 
 
             //// test castling
-            //Instance[0, 0] = new Rook(0, 0, PieceColorEnum.Black);
-            //Instance[0, 4] = new King(0, 4, PieceColorEnum.Black);
+            //Instance[0, 0] = new Rook(0, 0, ColorEnum.Black);
+            //Instance[0, 4] = new King(0, 4, ColorEnum.Black);
             //BlackKing = (King)Instance[0, 4];
-            //Instance[0, 7] = new Rook(0, 7, PieceColorEnum.Black);
+            //Instance[0, 7] = new Rook(0, 7, ColorEnum.Black);
 
-            //Instance[7, 0] = new Rook(7, 0, PieceColorEnum.White);
-            //Instance[7, 4] = new King(7, 4, PieceColorEnum.White);
+            //Instance[7, 0] = new Rook(7, 0, ColorEnum.White);
+            //Instance[7, 4] = new King(7, 4, ColorEnum.White);
             //WhiteKing = (King)Instance[7, 4];
-            //Instance[7, 7] = new Rook(7, 7, PieceColorEnum.White);
+            //Instance[7, 7] = new Rook(7, 7, ColorEnum.White);
         }
 
         public void PrintBoardWithTakenPieces()
@@ -109,7 +111,7 @@ namespace Chess.Class.Board
                 {
                     if (Instance[i, j] != null)
                     {
-                        if (Instance[i, j].Color == PieceColorEnum.Black) Console.ForegroundColor = ConsoleColor.Blue;
+                        if (Instance[i, j].Color == ColorEnum.Black) Console.ForegroundColor = ConsoleColor.Blue;
                         else Console.ForegroundColor = ConsoleColor.White;
 
                         Console.Write($"{ Instance[i, j].BoardNotation } ");
@@ -143,7 +145,7 @@ namespace Chess.Class.Board
 
                     if (this.BlackScore > 0 && this.WhiteScore != this.BlackScore)
                     {
-                        Console.Write($"up {this.BlackScore}");
+                        Console.Write($"(up {this.BlackScore})");
                     }
                 }
                 else if (i == 7 && CapturedBlackPieces.Count > 0)
@@ -158,7 +160,7 @@ namespace Chess.Class.Board
 
                     if (this.WhiteScore > 0 && this.BlackScore != this.WhiteScore)
                     {
-                        Console.Write($"up {this.WhiteScore}");
+                        Console.Write($"(up {this.WhiteScore})");
                     }
                 }
 
@@ -236,20 +238,85 @@ namespace Chess.Class.Board
             return new KeyValuePair<int, int>(y, x);
         }
 
+        public string ConvertMoveForNotation(int column, int row)
+        {
+            string notation = String.Empty;
+            switch (column)
+            {
+                case 0:
+                    notation += 'a';
+                    break;
+                case 1:
+                    notation += 'b';
+                    break;
+                case 2:
+                    notation += 'c';
+                    break;
+                case 3:
+                    notation += 'd';
+                    break;
+                case 4:
+                    notation += 'e';
+                    break;
+                case 5:
+                    notation += 'f';
+                    break;
+                case 6:
+                    notation += 'g';
+                    break;
+                case 7:
+                    notation += 'h';
+                    break;
+            }
+
+            switch (row)
+            {
+                case 0:
+                    notation += '8';
+                    break;
+                case 1:
+                    notation += '7';
+                    break;
+                case 2:
+                    notation += '6';
+                    break;
+                case 3:
+                    notation += '5';
+                    break;
+                case 4:
+                    notation += '4';
+                    break;
+                case 5:
+                    notation += '3';
+                    break;
+                case 6:
+                    notation += '2';
+                    break;
+                case 7:
+                    notation += '1';
+                    break;
+            }
+
+            return notation;
+        }
+
+
         public void MovePiece(IPiece piece, int x, int y)
         {
+            bool isCapture = false;
             if (Instance[x, y] != null)
             {
                 // is a capture. update scores
+                isCapture = true;
                 var capturedPiece = Instance[x, y];
                 switch (capturedPiece.Color)
                 {
-                    case PieceColorEnum.Black:
+                    case ColorEnum.Black:
                         this.WhiteScore += capturedPiece.Value;
                         this.BlackScore -= capturedPiece.Value;
                         CapturedBlackPieces.Add(capturedPiece);
                         break;
-                    case PieceColorEnum.White:
+                    case ColorEnum.White:
                         this.BlackScore += capturedPiece.Value;
                         this.WhiteScore -= capturedPiece.Value;
                         CapturedWhitePieces.Add(capturedPiece);
@@ -257,9 +324,51 @@ namespace Chess.Class.Board
                 }
             }
 
+            if (isCapture || piece.Type == TypeEnum.Pawn)
+            {
+                MovesSinceLastCaptureOrPawnMove = 0;
+            }
+            else
+            {
+                MovesSinceLastCaptureOrPawnMove++;
+            }
+
             Instance[x, y] = piece;
             Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = null;
             piece.Move(x, y);
+        }
+
+        public void PromotePawn(IPiece piece)
+        {
+            var valid = false;
+            Console.WriteLine("Q R B N");
+            while (!valid)
+            {
+                Console.Write("> ");
+                var newPieceType = Console.ReadLine();
+                switch (newPieceType)
+                {
+                    case "Q":
+                        this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = new Queen(piece.CurrentLocation_x, piece.CurrentLocation_y, this.ColorToMove);
+                        valid = true;
+                        break;
+                    case "R":
+                        this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = new Rook(piece.CurrentLocation_x, piece.CurrentLocation_y, this.ColorToMove);
+                        valid = true;
+                        break;
+                    case "B":
+                        this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = new Bishop(piece.CurrentLocation_x, piece.CurrentLocation_y, this.ColorToMove);
+                        valid = true;
+                        break;
+                    case "N":
+                        this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = new Knight(piece.CurrentLocation_x, piece.CurrentLocation_y, this.ColorToMove);
+                        valid = true;
+                        break;
+                    default:
+                        valid = false;
+                        break;
+                }
+            }
         }
 
         public object DeepClone<T>(T obj)
@@ -270,6 +379,26 @@ namespace Chess.Class.Board
                 formatter.Serialize(ms, obj);
                 ms.Position = 0;
                 return formatter.Deserialize(ms);
+            }
+        }
+
+        public void FindBestMove_OneLayer()
+        {
+            // stuff that might impact a move's "score"
+            //    does the move capture?
+            //    does the move put that piece (or any of my pieces) at risk?
+            //    if the move is a capture, and it puts that piece (or any piece) at risk, is it worth it in points?
+            foreach (var piece in Instance)
+            {
+                if (piece != null && piece.Color == this.ColorToMove)
+                {
+                    var moves = piece.AvailableMoves(this);
+                    foreach (var move in moves)
+                    {
+                        var pieceCopy = (IPiece)this.DeepClone(piece);
+                        var simBoard = (Board)this.DeepClone(this);
+                    }
+                }
             }
         }
     }

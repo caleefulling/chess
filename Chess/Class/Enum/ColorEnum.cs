@@ -1,6 +1,6 @@
 ﻿namespace Chess.Class.Enum
 {
-    public enum PieceColorEnum
+    public enum ColorEnum
     {
         Black,
         White

@@ -7,11 +7,18 @@ namespace Chess
 {
     class MainClass
     {
+        // to do -
+        //   en passant
+        //   stalemate
+        //   draws
+        //   "AI" attempt
+        //   function for "dev" board for testing scenarios, accept input for placing the pieces.
+        //      undo (store locations at end of loop, set that location to null)
         public static void Main(string[] args)
         {
             bool validMove;
             Board board = new Board();
-            while (!board.WhiteKing.IsCheckMate(board) && !board.BlackKing.IsCheckMate(board))
+            while (!board.WhiteKing.IsCheckMate(board) && !board.BlackKing.IsCheckMate(board) && board.MovesSinceLastCaptureOrPawnMove <= 50)
             {
                 Console.WriteLine($"{board.ColorToMove}'s move");
                 board.PrintBoardWithTakenPieces();
@@ -22,10 +29,14 @@ namespace Chess
                 {
                     Console.WriteLine($"black score: {board.BlackScore}, white score: {board.WhiteScore}");
                 }
+                else if (command.Trim().Contains("best"))
+                {
+
+                }
                 else if (command.Trim() == "0-0")
                 {
                     // castle kingside
-                    var king = board.ColorToMove == PieceColorEnum.Black ? board.BlackKing : board.WhiteKing;
+                    var king = board.ColorToMove == ColorEnum.Black ? board.BlackKing : board.WhiteKing;
                     var canCastleResult = king.CanCastleOnKingSide(board);
                     if (canCastleResult.canCastle)
                     {
@@ -47,7 +58,7 @@ namespace Chess
                 else if (command.Trim() == "0-0-0")
                 {
                     // castle queenside
-                    var king = board.ColorToMove == PieceColorEnum.Black ? board.BlackKing : board.WhiteKing;
+                    var king = board.ColorToMove == ColorEnum.Black ? board.BlackKing : board.WhiteKing;
                     var canCastleResult = king.CanCastleOnQueenSide(board);
                     if (canCastleResult.canCastle)
                     {
@@ -74,19 +85,27 @@ namespace Chess
                         var startPos = board.ConvertNotationForMove(commands[0]);
                         var endPos = board.ConvertNotationForMove(commands[1]);
 
-                        var piece = board.Instance[Convert.ToInt32(startPos.Key), Convert.ToInt32(startPos.Value)];
+                        var piece = board.Instance[startPos.Key, startPos.Value];
                         if (piece != null && piece.Color == board.ColorToMove)
                         {
                             var moves = piece.AvailableMoves(board);
-                            if (moves.Contains(new KeyValuePair<int, int>(Convert.ToInt32(endPos.Key), Convert.ToInt32(endPos.Value))))
+                            if (moves.Contains(new KeyValuePair<int, int>(endPos.Key, endPos.Value)))
                             {
                                 // valid move
-                                board.MovePiece(piece, Convert.ToInt32(endPos.Key), Convert.ToInt32(endPos.Value));
+                                board.MovePiece(piece, endPos.Key, endPos.Value);
                                 validMove = true;
 
+                                // pawn promotion
+                                if (piece.Type == TypeEnum.Pawn &&
+                                       (board.ColorToMove == ColorEnum.White && endPos.Key == 0)
+                                    || (board.ColorToMove == ColorEnum.Black && endPos.Key == 7))
+                                {
+                                    board.PromotePawn(piece);
+                                }
+
                                 // see if there's a resulting check
-                                if ((board.ColorToMove == PieceColorEnum.Black && board.WhiteKing.IsInCheck(board))
-                                    || (board.ColorToMove == PieceColorEnum.White && board.BlackKing.IsInCheck(board)))
+                                if ((board.ColorToMove == ColorEnum.Black && board.WhiteKing.IsInCheck(board))
+                                 || (board.ColorToMove == ColorEnum.White && board.BlackKing.IsInCheck(board)))
                                 {
                                     Console.WriteLine("check");
                                 }
@@ -94,7 +113,7 @@ namespace Chess
                             }
                             else
                             {
-                                Console.WriteLine($"piece at {commands[0]} cannot legally move to {commands[1]}");
+                                Console.WriteLine($"piece at {commands[0]} cannot move to {commands[1]}");
                             }
                         }
                         else if (piece == null)
@@ -113,10 +132,10 @@ namespace Chess
                 }
 
                 if (validMove)
-                    board.ColorToMove = board.ColorToMove == PieceColorEnum.Black ? PieceColorEnum.White : PieceColorEnum.Black;
+                    board.ColorToMove = board.ColorToMove == ColorEnum.Black ? ColorEnum.White : ColorEnum.Black;
             }
 
-            Console.WriteLine($"check mate - game over. { (board.WhiteKing.IsCheckMate(board) ? PieceColorEnum.Black.ToString() : PieceColorEnum.White.ToString()) } wins!");
+            Console.WriteLine($"check mate - game over. { (board.WhiteKing.IsCheckMate(board) ? ColorEnum.Black.ToString() : ColorEnum.White.ToString()) } wins!");
             Console.WriteLine($"black score: {board.BlackScore}, white score: {board.WhiteScore}");
         }
     }

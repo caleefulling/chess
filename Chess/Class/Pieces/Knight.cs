@@ -7,9 +7,9 @@ namespace Chess.Class.Pieces
     [Serializable]
     public class Knight : IPiece
     {
-        public PieceTypeEnum Type { get; set; }
+        public TypeEnum Type { get; set; }
 
-        public PieceColorEnum Color { get; set; }
+        public ColorEnum Color { get; set; }
 
         public char BoardNotation { get; set; }
 
@@ -20,12 +20,12 @@ namespace Chess.Class.Pieces
         public int CurrentLocation_y { get; set; }
 
 
-        public Knight(int x, int y, PieceColorEnum color)
+        public Knight(int x, int y, ColorEnum color)
         {
             CurrentLocation_x = x;
             CurrentLocation_y = y;
 
-            Type = PieceTypeEnum.Knight;
+            Type = TypeEnum.Knight;
             BoardNotation = 'N';
             Value = 3;
             Color = color;
@@ -33,14 +33,14 @@ namespace Chess.Class.Pieces
 
         public List<KeyValuePair<int, int>> AvailableMoves(Board.Board board)
         {
-            List<KeyValuePair<int, int>> positionsReturn = new List<KeyValuePair<int, int>>();
+            List<KeyValuePair<int, int>> availableMoves = new List<KeyValuePair<int, int>>();
 
             if (CurrentLocation_x - 2 >= 0 && CurrentLocation_y - 1 >= 0)
             {
                 var piece = board.Instance[CurrentLocation_x - 2, CurrentLocation_y - 1];
                 if (piece == null || (piece != null && piece.Color != Color))
                 {
-                    positionsReturn.Add(new KeyValuePair<int, int>(CurrentLocation_x - 2, CurrentLocation_y - 1));
+                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 2, CurrentLocation_y - 1));
                 }
             }
 
@@ -49,7 +49,7 @@ namespace Chess.Class.Pieces
                 var piece = board.Instance[CurrentLocation_x - 2, CurrentLocation_y + 1];
                 if (piece == null || (piece != null && piece.Color != Color))
                 {
-                    positionsReturn.Add(new KeyValuePair<int, int>(CurrentLocation_x - 2, CurrentLocation_y + 1));
+                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 2, CurrentLocation_y + 1));
                 }
             }
 
@@ -58,7 +58,7 @@ namespace Chess.Class.Pieces
                 var piece = board.Instance[CurrentLocation_x - 1, CurrentLocation_y + 2];
                 if (piece == null || (piece != null && piece.Color != Color))
                 {
-                    positionsReturn.Add(new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y + 2));
+                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y + 2));
                 }
             }
 
@@ -67,7 +67,7 @@ namespace Chess.Class.Pieces
                 var piece = board.Instance[CurrentLocation_x + 1, CurrentLocation_y + 2];
                 if (piece == null || (piece != null && piece.Color != Color))
                 {
-                    positionsReturn.Add(new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y + 2));
+                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y + 2));
                 }
             }
 
@@ -76,7 +76,7 @@ namespace Chess.Class.Pieces
                 var piece = board.Instance[CurrentLocation_x + 2, CurrentLocation_y + 1];
                 if (piece == null || (piece != null && piece.Color != Color))
                 {
-                    positionsReturn.Add(new KeyValuePair<int, int>(CurrentLocation_x + 2, CurrentLocation_y + 1));
+                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 2, CurrentLocation_y + 1));
                 }
             }
 
@@ -85,7 +85,7 @@ namespace Chess.Class.Pieces
                 var piece = board.Instance[CurrentLocation_x + 2, CurrentLocation_y - 1];
                 if (piece == null || (piece != null && piece.Color != Color))
                 {
-                    positionsReturn.Add(new KeyValuePair<int, int>(CurrentLocation_x + 2, CurrentLocation_y - 1));
+                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 2, CurrentLocation_y - 1));
                 }
             }
 
@@ -94,7 +94,7 @@ namespace Chess.Class.Pieces
                 var piece = board.Instance[CurrentLocation_x + 1, CurrentLocation_y - 2];
                 if (piece == null || (piece != null && piece.Color != Color))
                 {
-                    positionsReturn.Add(new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y - 2));
+                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y - 2));
                 }
             }
 
@@ -103,12 +103,125 @@ namespace Chess.Class.Pieces
                 var piece = board.Instance[CurrentLocation_x - 1, CurrentLocation_y - 2];
                 if (piece == null || (piece != null && piece.Color != Color))
                 {
-                    positionsReturn.Add(new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y - 2));
+                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y - 2));
                 }
             }
 
-            return positionsReturn;
+            return availableMoves;
         }
+
+        //public List<Move> AvailableMoves(Board.Board board, bool? test)
+        //{
+        //    List<Move> availableMoves = new List<Move>();
+
+        //    if (CurrentLocation_x - 2 >= 0 && CurrentLocation_y - 1 >= 0)
+        //    {
+        //        var piece = board.Instance[CurrentLocation_x - 2, CurrentLocation_y - 1];
+        //        if (piece == null)
+        //        {
+        //            availableMoves.Add(new Move(this, CurrentLocation_x - 2, CurrentLocation_y - 1));
+        //            //availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 2, CurrentLocation_y - 1));
+        //        }
+        //        else if (piece != null && piece.Color != Color)
+        //        {
+        //            availableMoves.Add(new Move(this, CurrentLocation_x - 2, CurrentLocation_y - 1, piece.Value));
+        //        }
+        //    }
+
+        //    if (CurrentLocation_x - 2 >= 0 && CurrentLocation_y + 1 <= 7)
+        //    {
+        //        var piece = board.Instance[CurrentLocation_x - 2, CurrentLocation_y + 1];
+        //        if (piece == null)
+        //        {
+        //            availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 2, CurrentLocation_y + 1));
+        //        }
+        //        else if (piece != null && piece.Color != Color)
+        //        {
+
+        //        }
+        //    }
+
+        //    if (CurrentLocation_x - 1 >= 0 && CurrentLocation_y + 2 <= 7)
+        //    {
+        //        var piece = board.Instance[CurrentLocation_x - 1, CurrentLocation_y + 2];
+        //        if (piece == null)
+        //        {
+        //            availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y + 2));
+        //        }
+        //        else if (piece != null && piece.Color != Color)
+        //        {
+
+        //        }
+        //    }
+
+        //    if (CurrentLocation_x + 1 <= 7 && CurrentLocation_y + 2 <= 7)
+        //    {
+        //        var piece = board.Instance[CurrentLocation_x + 1, CurrentLocation_y + 2];
+        //        if (piece == null)
+        //        {
+        //            availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y + 2));
+        //        }
+        //        else if (piece != null && piece.Color != Color)
+        //        {
+
+        //        }
+        //    }
+
+        //    if (CurrentLocation_x + 2 <= 7 && CurrentLocation_y + 1 <= 7)
+        //    {
+        //        var piece = board.Instance[CurrentLocation_x + 2, CurrentLocation_y + 1];
+        //        if (piece == null)
+        //        {
+        //            availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 2, CurrentLocation_y + 1));
+        //        }
+        //        else if (piece != null && piece.Color != Color)
+        //        {
+
+        //        }
+        //    }
+
+        //    if (CurrentLocation_x + 2 <= 7 && CurrentLocation_y - 1 >= 0)
+        //    {
+        //        var piece = board.Instance[CurrentLocation_x + 2, CurrentLocation_y - 1];
+        //        if (piece == null)
+        //        {
+        //            availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 2, CurrentLocation_y - 1));
+        //        }
+        //        else if (piece != null && piece.Color != Color)
+        //        {
+
+        //        }
+        //    }
+
+        //    if (CurrentLocation_x + 1 <= 7 && CurrentLocation_y - 2 >= 0)
+        //    {
+        //        var piece = board.Instance[CurrentLocation_x + 1, CurrentLocation_y - 2];
+        //        if (piece == null)
+        //        {
+        //            availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y - 2));
+        //        }
+        //        else if (piece != null && piece.Color != Color)
+        //        {
+
+        //        }
+        //    }
+
+        //    if (CurrentLocation_x - 1 >= 0 && CurrentLocation_y - 2 >= 0)
+        //    {
+        //        var piece = board.Instance[CurrentLocation_x - 1, CurrentLocation_y - 2];
+        //        if (piece == null)
+        //        {
+        //            availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y - 2));
+        //        }
+        //        else if (piece != null && piece.Color != Color)
+        //        {
+
+        //        }
+        //    }
+
+        //    return availableMoves;
+        //}
+
 
         public List<KeyValuePair<int, int>> GetCheckPath(Board.Board board)
         {
