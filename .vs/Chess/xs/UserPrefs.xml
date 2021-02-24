@@ -1,11 +1,11 @@
 ﻿<Properties StartupConfiguration="{E2E6BF67-78F6-47CC-914F-8B1BAF85C569}|Default">
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Chess/Class/Move.cs" Line="28" Column="46" />
-      <File FileName="Chess/Class/Pieces/King.cs" Line="612" Column="46" />
+      <File FileName="Chess/Class/Pieces/King.cs" Line="8" Column="19" />
       <File FileName="Chess/Class/Pieces/Knight.cs" Line="1" Column="1" />
-      <File FileName="Chess/Program.cs" Line="90" Column="26" />
-      <File FileName="Chess/Class/Board.cs" Line="321" Column="64" />
+      <File FileName="Chess/Program.cs" Line="19" Column="31" />
+      <File FileName="Chess/Class/Board.cs" Line="33" Column="10" />
+      <File FileName="Chess/Class/Pieces/Pawn.cs" Line="34" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,8 +15,8 @@
               <Node name="Class" expanded="True">
                 <Node name="Enum" expanded="True" />
                 <Node name="Pieces" expanded="True" />
+                <Node name="Board.cs" selected="True" />
               </Node>
-              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>

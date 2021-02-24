@@ -7,7 +7,7 @@ namespace Chess
 {
     class MainClass
     {
-        // to do -
+        // stuff to do -
         //   en passant
         //   stalemate
         //   draws
@@ -16,8 +16,19 @@ namespace Chess
         //      undo (store locations at end of loop, set that location to null)
         public static void Main(string[] args)
         {
+            bool manualBoard = true;
             bool validMove;
-            Board board = new Board();
+
+            Board board;
+            if (!manualBoard)
+            {
+                board = new Board();
+            }
+            else
+            {
+                board = new Board(true);
+            }
+
             while (!board.WhiteKing.IsCheckMate(board) && !board.BlackKing.IsCheckMate(board) && board.MovesSinceLastCaptureOrPawnMove <= 50)
             {
                 Console.WriteLine($"{board.ColorToMove}'s move");
@@ -95,17 +106,8 @@ namespace Chess
                                 board.MovePiece(piece, endPos.Key, endPos.Value);
                                 validMove = true;
 
-                                // pawn promotion
-                                if (piece.Type == TypeEnum.Pawn &&
-                                       (board.ColorToMove == ColorEnum.White && endPos.Key == 0)
-                                    || (board.ColorToMove == ColorEnum.Black && endPos.Key == 7))
-                                {
-                                    board.PromotePawn(piece);
-                                }
-
                                 // see if there's a resulting check
-                                if ((board.ColorToMove == ColorEnum.Black && board.WhiteKing.IsInCheck(board))
-                                 || (board.ColorToMove == ColorEnum.White && board.BlackKing.IsInCheck(board)))
+                                if ((board.ColorToMove == ColorEnum.Black && board.WhiteKing.IsInCheck(board)) || (board.ColorToMove == ColorEnum.White && board.BlackKing.IsInCheck(board)))
                                 {
                                     Console.WriteLine("check");
                                 }
