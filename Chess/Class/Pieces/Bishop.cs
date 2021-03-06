@@ -19,6 +19,10 @@ namespace Chess.Class.Pieces
 
         public int CurrentLocation_y { get; set; }
 
+        public bool IsAtRisk { get; set; }
+
+        public bool IsPuttingPieceAtRisk { get; set; }
+
 
         public Bishop(int x, int y, ColorEnum color)
         {
@@ -154,9 +158,9 @@ namespace Chess.Class.Pieces
             return availableMoves;
         }
 
-        public List<Move> AvailableMoves(Board.Board board, bool? test)
+        public List<Move> AvailableMovesWithDetails(Board.Board board)
         {
-            List<Move> moves = new List<Move>();
+            List<Move> availableMoves = new List<Move>();
 
             int row = CurrentLocation_x;
             int col = CurrentLocation_y;
@@ -169,19 +173,18 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        moves.Add(new Move(this, row, col));
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
                     }
                     else
                     {
                         if (piece.Color != this.Color)
                         {
-                            moves.Add(new Move(this, row, col, piece.Value));
-                            break;
+                            var move = new Move(this, new KeyValuePair<int, int>(row, col));
+                            move.IsCapture = true;
+                            move.CaptureValue = piece.Value;
+                            availableMoves.Add(move);
                         }
-                        else
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
                 else
@@ -201,13 +204,16 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        moves.Add(new Move(this, row, col));
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
                     }
                     else
                     {
                         if (piece.Color != this.Color)
                         {
-                            moves.Add(new Move(this, row, col, piece.Value));
+                            var move = new Move(this, new KeyValuePair<int, int>(row, col));
+                            move.IsCapture = true;
+                            move.CaptureValue = piece.Value;
+                            availableMoves.Add(move);
                         }
                         break;
                     }
@@ -229,13 +235,16 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        moves.Add(new Move(this, row, col));
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
                     }
                     else
                     {
                         if (piece.Color != this.Color)
                         {
-                            moves.Add(new Move(this, row, col, piece.Value));
+                            var move = new Move(this, new KeyValuePair<int, int>(row, col));
+                            move.IsCapture = true;
+                            move.CaptureValue = piece.Value;
+                            availableMoves.Add(move);
                         }
                         break;
                     }
@@ -257,13 +266,16 @@ namespace Chess.Class.Pieces
                     var piece = board.Instance[row, col];
                     if (piece == null)
                     {
-                        moves.Add(new Move(this, row, col));
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
                     }
                     else
                     {
                         if (piece.Color != this.Color)
                         {
-                            moves.Add(new Move(this, row, col, piece.Value));
+                            var move = new Move(this, new KeyValuePair<int, int>(row, col));
+                            move.IsCapture = true;
+                            move.CaptureValue = piece.Value;
+                            availableMoves.Add(move);
                         }
                         break;
                     }
@@ -274,7 +286,7 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            return moves;
+            return availableMoves;
         }
 
         public List<KeyValuePair<int, int>> GetCheckPath(Board.Board board)

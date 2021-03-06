@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Chess.Class
 {
@@ -6,31 +7,46 @@ namespace Chess.Class
     {
         public IPiece Piece { get; set; }
 
-        public KeyValuePair<int, int> Coordinates { get; set; }
+        public bool IsAtRisk { get; set; }
+
+        public int? AtRiskValue { get; set; }
+
+        public int? PuttingPieceAtRiskValue { get; set; }
+
+        public KeyValuePair<int, int> MoveCoordinates { get; set; }
 
         public bool IsCapture { get; set; }
 
         public int? CaptureValue { get; set; }
 
-        public bool IsCapturableAfterMove { get; set; }
+        public int DistanceFromMiddleOfBoard { get; set; }
 
-        public bool IsOtherPieceCapturableAfterMove { get; set; }
 
-        public int? OtherPieceCapturableAfterMoveValue { get; set; }
-
-        public Move(IPiece piece, int row, int column)
+        public Move(IPiece piece, KeyValuePair<int, int> coordinates)
         {
             Piece = piece;
-            Coordinates = new KeyValuePair<int, int>(row, column);
-            IsCapture = false;
+            MoveCoordinates = coordinates;
+            DistanceFromMiddleOfBoard = GetDistanceFromMiddleOfBoard();
         }
 
-        public Move(IPiece piece, int row, int column, int captureValue)
+        public Move(IPiece piece, KeyValuePair<int, int> coordinates, IPiece pieceToCapture)
         {
             Piece = piece;
-            Coordinates = new KeyValuePair<int, int>(row, column);
+            MoveCoordinates = coordinates;
+            CaptureValue = pieceToCapture.Value;
             IsCapture = true;
-            CaptureValue = captureValue;
+            DistanceFromMiddleOfBoard = GetDistanceFromMiddleOfBoard();
+        }
+
+        public int GetDistanceFromMiddleOfBoard()
+        {
+            var totalDistance = 0;
+            totalDistance += (Math.Abs(3 - this.MoveCoordinates.Key) + Math.Abs(3 - this.MoveCoordinates.Value));
+            totalDistance += (Math.Abs(4 - this.MoveCoordinates.Key) + Math.Abs(3 - this.MoveCoordinates.Value));
+            totalDistance += (Math.Abs(3 - this.MoveCoordinates.Key) + Math.Abs(4 - this.MoveCoordinates.Value));
+            totalDistance += (Math.Abs(4 - this.MoveCoordinates.Key) + Math.Abs(4 - this.MoveCoordinates.Value));
+
+            return totalDistance / 4;
         }
     }
 }

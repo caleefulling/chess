@@ -11,8 +11,11 @@ namespace Chess.Class
         int Value { get; set; }
         int CurrentLocation_x { get; set; }
         int CurrentLocation_y { get; set; }
+        bool IsAtRisk { get; set; }
+        bool IsPuttingPieceAtRisk { get; set; }
 
         List<KeyValuePair<int, int>> AvailableMoves(Board.Board board);
+        List<Move> AvailableMovesWithDetails(Board.Board board);
         List<KeyValuePair<int, int>> GetCheckPath(Board.Board board);
         void Move(int x, int y);
     }

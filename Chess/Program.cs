@@ -9,14 +9,12 @@ namespace Chess
     {
         // stuff to do -
         //   en passant
-        //   stalemate
         //   draws
-        //   "AI" attempt
-        //   function for "dev" board for testing scenarios, accept input for placing the pieces.
-        //      undo (store locations at end of loop, set that location to null)
+        //       stalemate - the king is NOT in check, but no piece can be moved without putting the king in check
+        //   attempt at "AI" 
         public static void Main(string[] args)
         {
-            bool manualBoard = true;
+            bool manualBoard = false;
             bool validMove;
 
             Board board;
@@ -29,9 +27,9 @@ namespace Chess
                 board = new Board(true);
             }
 
-            while (!board.WhiteKing.IsCheckMate(board) && !board.BlackKing.IsCheckMate(board) && board.MovesSinceLastCaptureOrPawnMove <= 50)
+            while (!board.WhiteKing.IsCheckMate(board) && !board.BlackKing.IsCheckMate(board))
             {
-                Console.WriteLine($"{board.ColorToMove}'s move");
+                Console.WriteLine($"\n{board.ColorToMove}'s move");
                 board.PrintBoardWithTakenPieces();
                 validMove = false;
 
@@ -40,9 +38,10 @@ namespace Chess
                 {
                     Console.WriteLine($"black score: {board.BlackScore}, white score: {board.WhiteScore}");
                 }
-                else if (command.Trim().Contains("best"))
+                else if (command.Contains("best"))
                 {
-
+                    var move = board.FindBestMove_OneLayer(board, 1);
+                    Console.WriteLine($"best - {board.ConvertMoveForNotation(move.Piece.CurrentLocation_x, move.Piece.CurrentLocation_y)} {board.ConvertMoveForNotation(move.MoveCoordinates.Key, move.MoveCoordinates.Value)}");
                 }
                 else if (command.Trim() == "0-0")
                 {

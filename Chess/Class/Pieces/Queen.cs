@@ -19,6 +19,10 @@ namespace Chess.Class.Pieces
 
         public int CurrentLocation_y { get; set; }
 
+        public bool IsAtRisk { get; set; }
+
+        public bool IsPuttingPieceAtRisk { get; set; }
+
 
         public Queen(int x, int y, ColorEnum color)
         {
@@ -259,6 +263,236 @@ namespace Chess.Class.Pieces
 
             return availableMoves;
         }
+
+        public List<Move> AvailableMovesWithDetails(Board.Board board)
+        {
+            List<Move> availableMoves = new List<Move>();
+
+            // diagonal (bishop)
+            int row = CurrentLocation_x;
+            int col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row -= 1;
+                col -= 1;
+                if (row >= 0 && col >= 0)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row -= 1;
+                col += 1;
+                if (row >= 0 && col <= 7)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row += 1;
+                col += 1;
+                if (row <= 7 && col <= 7)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row += 1;
+                col -= 1;
+                if (row <= 7 && col >= 0)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // horizontal (rook)
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row -= 1;
+                if (row >= 0)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                col += 1;
+                if (col <= 7)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row += 1;
+                if (row <= 7)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            row = CurrentLocation_x;
+            col = CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                col -= 1;
+                if (col >= 0)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return availableMoves;
+        }
+
 
         public List<KeyValuePair<int, int>> GetCheckPath(Board.Board board)
         {

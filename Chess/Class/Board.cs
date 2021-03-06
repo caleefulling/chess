@@ -27,8 +27,6 @@ namespace Chess.Class.Board
 
         public List<IPiece> CapturedWhitePieces { get; set; }
 
-        public int MovesSinceLastCaptureOrPawnMove { get; set; }
-
         public Board()
         {
             ColorToMove = ColorEnum.White;
@@ -148,7 +146,8 @@ namespace Chess.Class.Board
                         case "P":
                             Pawn pawn = new Pawn(coordinates.Key, coordinates.Value, ColorEnum.Black);
                             pawn.HasMoved = true;
-                            this.Instance[coordinates.Key, coordinates.Value] = pawn; break;
+                            this.Instance[coordinates.Key, coordinates.Value] = pawn;
+                            break;
                         case "K":
                             this.Instance[coordinates.Key, coordinates.Value] = new King(coordinates.Key, coordinates.Value, ColorEnum.Black);
                             this.BlackKing = (King)Instance[coordinates.Key, coordinates.Value];
@@ -362,7 +361,7 @@ namespace Chess.Class.Board
             return new KeyValuePair<int, int>(y, x);
         }
 
-        public string ConvertMoveForNotation(int column, int row)
+        public string ConvertMoveForNotation(int row, int column)
         {
             string notation = String.Empty;
             switch (column)
@@ -424,14 +423,11 @@ namespace Chess.Class.Board
             return notation;
         }
 
-
         public void MovePiece(IPiece piece, int x, int y)
         {
-            bool isCapture = false;
             if (Instance[x, y] != null)
             {
                 // is a capture. update scores
-                isCapture = true;
                 var capturedPiece = Instance[x, y];
                 switch (capturedPiece.Color)
                 {
@@ -448,15 +444,6 @@ namespace Chess.Class.Board
                 }
             }
 
-            if (isCapture || piece.Type == TypeEnum.Pawn)
-            {
-                MovesSinceLastCaptureOrPawnMove = 0;
-            }
-            else
-            {
-                MovesSinceLastCaptureOrPawnMove++;
-            }
-
             Instance[x, y] = piece;
             Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = null;
             piece.Move(x, y);
@@ -467,6 +454,35 @@ namespace Chess.Class.Board
             {
                 PromotePawn(piece);
             }
+
+            // is the piece at risk now?
+            foreach (var defensePiece in this.Instance)
+            {
+                if (defensePiece != null && defensePiece.Type != TypeEnum.King && defensePiece.Color != piece.Color)
+                {
+                    var defensePieceMoves = defensePiece.AvailableMoves(this);
+                    if (defensePieceMoves.Contains(new KeyValuePair<int, int>(piece.CurrentLocation_x, piece.CurrentLocation_y)))
+                    {
+                        piece.IsAtRisk = true;
+                        break;
+                    }
+                    else
+                    {
+                        piece.IsAtRisk = false;
+                    }
+                }
+            }
+
+            // is it putting a piece at risk now?
+            //var moves = piece.AvailableMovesWithDetails(this);
+            //if (moves.Where(e => e.IsCapture == true).Any())
+            //{
+            //    piece.IsPuttingPieceAtRisk = true;
+            //}
+            //else
+            //{
+            //    piece.IsPuttingPieceAtRisk = false;
+            //}
         }
 
         public void PromotePawn(IPiece piece)
@@ -513,24 +529,56 @@ namespace Chess.Class.Board
             }
         }
 
-        public void FindBestMove_OneLayer()
+        public Move? FindBestMove_OneLayer(Board board, int layer)
         {
+            if (layer > 3)
+            {
+                return null;
+            }
+
+            List<Move> moves = new List<Move>();
             // stuff that might impact a move's "score"
             //    does the move capture?
             //    does the move put that piece (or any of my pieces) at risk?
             //    if the move is a capture, and it puts that piece (or any piece) at risk, is it worth it in points?
+            //    does the move prevent an attack? is it worth it in points if it's now at risk?
+
+            // function for taking the board and finding the point value of pieces currently at risk
+            // call this before the move and then after, and compare the point value difference (ie did the move result in an at risk change?   note - the value could be positive)
+            var currentSideRiskValue = board.PiecesAtRiskValue();
             foreach (var piece in Instance)
             {
-                if (piece != null && piece.Color == this.ColorToMove)
+                if (piece != null && piece.Color == board.ColorToMove)
                 {
-                    var moves = piece.AvailableMoves(this);
-                    foreach (var move in moves)
+                    var availableMoves = piece.AvailableMovesWithDetails(this);
+                    foreach (var move in availableMoves)
                     {
-                        var pieceCopy = (IPiece)this.DeepClone(piece);
-                        var simBoard = (Board)this.DeepClone(this);
+                        var pieceCopy = (IPiece)board.DeepClone(piece);
+                        var simBoard = (Board)board.DeepClone(this);
+                        simBoard.MovePiece(pieceCopy, move.MoveCoordinates.Key, move.MoveCoordinates.Value);
+                        move.AtRiskValue = simBoard.PiecesAtRiskValue() - currentSideRiskValue;
+                        moves.Add(move);
+                        //_ = simBoard.FindBestMove_OneLayer(simBoard, layer + 1);
+
                     }
                 }
             }
+
+            return moves.OrderByDescending(e => e.IsCapture).ThenByDescending(e => e.CaptureValue).ThenByDescending(e => e.IsAtRisk).ThenBy(e => e.AtRiskValue).ThenBy(e => e.DistanceFromMiddleOfBoard).FirstOrDefault();
+        }
+
+        public int PiecesAtRiskValue()
+        {
+            int riskValue = 0;
+            foreach (var piece in this.Instance)
+            {
+                if (piece != null && piece.Color == this.ColorToMove && piece.IsAtRisk)
+                {
+                    riskValue += piece.Value;
+                }
+            }
+
+            return riskValue;
         }
     }
 }
