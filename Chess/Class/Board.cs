@@ -454,35 +454,6 @@ namespace Chess.Class.Board
             {
                 PromotePawn(piece);
             }
-
-            // is the piece at risk now?
-            foreach (var defensePiece in this.Instance)
-            {
-                if (defensePiece != null && defensePiece.Type != TypeEnum.King && defensePiece.Color != piece.Color)
-                {
-                    var defensePieceMoves = defensePiece.AvailableMoves(this);
-                    if (defensePieceMoves.Contains(new KeyValuePair<int, int>(piece.CurrentLocation_x, piece.CurrentLocation_y)))
-                    {
-                        piece.IsAtRisk = true;
-                        break;
-                    }
-                    else
-                    {
-                        piece.IsAtRisk = false;
-                    }
-                }
-            }
-
-            // is it putting a piece at risk now?
-            //var moves = piece.AvailableMovesWithDetails(this);
-            //if (moves.Where(e => e.IsCapture == true).Any())
-            //{
-            //    piece.IsPuttingPieceAtRisk = true;
-            //}
-            //else
-            //{
-            //    piece.IsPuttingPieceAtRisk = false;
-            //}
         }
 
         public void PromotePawn(IPiece piece)
@@ -538,14 +509,19 @@ namespace Chess.Class.Board
 
             List<Move> moves = new List<Move>();
             // stuff that might impact a move's "score"
-            //    does the move capture?
-            //    does the move put that piece (or any of my pieces) at risk?
-            //    if the move is a capture, and it puts that piece (or any piece) at risk, is it worth it in points?
-            //    does the move prevent an attack? is it worth it in points if it's now at risk?
+            //    does the move capture? - done
+            //    does the move put that piece (or any of my pieces) at risk? - done
+            //    if the move is a capture, and it puts that piece (or any piece) at risk, is it worth it in points? - done
+            //    does the move prevent an attack? is it worth it in points if it's now at risk? - done
+            //    is it close to the middle/other side of the board? - done
+            //    does it increase the # of available moves? (offense score)
+            //    does it decrease the # of available moves to the other side? (defense score)
 
             // function for taking the board and finding the point value of pieces currently at risk
-            // call this before the move and then after, and compare the point value difference (ie did the move result in an at risk change?   note - the value could be positive)
-            var currentSideRiskValue = board.PiecesAtRiskValue();
+            // call this before the move and then after, and compare the point value difference (ie did the move result in an at risk change?)
+            var currentSideRiskValue = board.CurrentSideRiskValue();
+            var currentSideOffenseValue = board.CurrentSideOffenseValue();
+
             foreach (var piece in Instance)
             {
                 if (piece != null && piece.Color == board.ColorToMove)
@@ -554,9 +530,11 @@ namespace Chess.Class.Board
                     foreach (var move in availableMoves)
                     {
                         var pieceCopy = (IPiece)board.DeepClone(piece);
-                        var simBoard = (Board)board.DeepClone(this);
+                        var simBoard = (Board)board.DeepClone(board);
                         simBoard.MovePiece(pieceCopy, move.MoveCoordinates.Key, move.MoveCoordinates.Value);
-                        move.AtRiskValue = simBoard.PiecesAtRiskValue() - currentSideRiskValue;
+                        move.AtRiskValue = simBoard.CurrentSideRiskValue() - currentSideRiskValue;
+                        move.OffenseScore = simBoard.CurrentSideOffenseValue() + move.CaptureValue - currentSideOffenseValue;
+                        move.CalculateMoveScore();
                         moves.Add(move);
                         //_ = simBoard.FindBestMove_OneLayer(simBoard, layer + 1);
 
@@ -564,21 +542,64 @@ namespace Chess.Class.Board
                 }
             }
 
-            return moves.OrderByDescending(e => e.IsCapture).ThenByDescending(e => e.CaptureValue).ThenByDescending(e => e.IsAtRisk).ThenBy(e => e.AtRiskValue).ThenBy(e => e.DistanceFromMiddleOfBoard).FirstOrDefault();
+            return moves.OrderByDescending(e => e.Score).FirstOrDefault();
+
+            //return moves.OrderByDescending(e => e.IsCapture).ThenByDescending(e => e.CaptureValue).ThenBy(e => e.AtRiskValue).ThenBy(e => e.MoveLocationScore).FirstOrDefault();
         }
 
-        public int PiecesAtRiskValue()
+        public int CurrentSideRiskValue()
         {
+            List<KeyValuePair<int, int>> defenseAvailableMoves = new List<KeyValuePair<int, int>>();
             int riskValue = 0;
             foreach (var piece in this.Instance)
             {
-                if (piece != null && piece.Color == this.ColorToMove && piece.IsAtRisk)
+                if (piece != null && piece.Color != this.ColorToMove)
                 {
-                    riskValue += piece.Value;
+                    defenseAvailableMoves.AddRange(piece.AvailableMoves(this));
+                }
+            }
+
+            foreach (var piece in this.Instance)
+            {
+                if (piece != null && piece.Color == this.ColorToMove)
+                {
+                    if (defenseAvailableMoves.Contains(new KeyValuePair<int, int>(piece.CurrentLocation_x, piece.CurrentLocation_y)))
+                    {
+                        piece.IsAtRisk = true; // not using this for anything right now
+                        riskValue += piece.Value;
+                    }
                 }
             }
 
             return riskValue;
         }
+
+        public int CurrentSideOffenseValue()
+        {
+            List<KeyValuePair<int, int>> offenseAvailableMoves = new List<KeyValuePair<int, int>>();
+            int riskValue = 0;
+            foreach (var piece in this.Instance)
+            {
+                if (piece != null && piece.Color == this.ColorToMove)
+                {
+                    offenseAvailableMoves.AddRange(piece.AvailableMoves(this));
+                }
+            }
+
+            foreach (var piece in this.Instance)
+            {
+                if (piece != null && piece.Color != this.ColorToMove)
+                {
+                    if (offenseAvailableMoves.Contains(new KeyValuePair<int, int>(piece.CurrentLocation_x, piece.CurrentLocation_y)))
+                    {
+                        piece.IsAtRisk = true; // not using this for anything right now
+                        riskValue += piece.Value;
+                    }
+                }
+            }
+
+            return riskValue;
+        }
+
     }
 }
