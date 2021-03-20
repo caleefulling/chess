@@ -31,16 +31,16 @@ namespace Chess.Class.Pieces
             Value = 3;
             Color = color;
 
-            CurrentLocation_x = x;
-            CurrentLocation_y = y;
+            this.CurrentLocation_x = x;
+            this.CurrentLocation_y = y;
         }
 
         public List<KeyValuePair<int, int>> AvailableMoves(Board.Board board)
         {
             List<KeyValuePair<int, int>> availableMoves = new List<KeyValuePair<int, int>>();
 
-            int row = CurrentLocation_x;
-            int col = CurrentLocation_y;
+            int row = this.CurrentLocation_x;
+            int col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -71,8 +71,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -99,8 +99,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -127,8 +127,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -162,8 +162,8 @@ namespace Chess.Class.Pieces
         {
             List<Move> availableMoves = new List<Move>();
 
-            int row = CurrentLocation_x;
-            int col = CurrentLocation_y;
+            int row = this.CurrentLocation_x;
+            int col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -193,8 +193,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -224,8 +224,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -255,8 +255,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -293,8 +293,8 @@ namespace Chess.Class.Pieces
         {
             List<KeyValuePair<int, int>> checkPath = new List<KeyValuePair<int, int>>();
 
-            int row = CurrentLocation_x;
-            int col = CurrentLocation_y;
+            int row = this.CurrentLocation_x;
+            int col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -331,8 +331,8 @@ namespace Chess.Class.Pieces
             }
 
             checkPath = new List<KeyValuePair<int, int>>();
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -365,8 +365,8 @@ namespace Chess.Class.Pieces
             }
 
             checkPath = new List<KeyValuePair<int, int>>();
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -399,8 +399,8 @@ namespace Chess.Class.Pieces
             }
 
             checkPath = new List<KeyValuePair<int, int>>();
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -437,8 +437,8 @@ namespace Chess.Class.Pieces
 
         public void Move(int x, int y)
         {
-            CurrentLocation_x = x;
-            CurrentLocation_y = y;
+            this.CurrentLocation_x = x;
+            this.CurrentLocation_y = y;
         }
     }
 }

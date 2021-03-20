@@ -28,8 +28,8 @@ namespace Chess.Class.Pieces
 
         public Rook(int x, int y, ColorEnum color)
         {
-            CurrentLocation_x = x;
-            CurrentLocation_y = y;
+            this.CurrentLocation_x = x;
+            this.CurrentLocation_y = y;
 
             Type = TypeEnum.Rook;
             BoardNotation = 'R';
@@ -41,8 +41,8 @@ namespace Chess.Class.Pieces
         {
             List<KeyValuePair<int, int>> availableMoves = new List<KeyValuePair<int, int>>();
 
-            int row = CurrentLocation_x;
-            int col = CurrentLocation_y;
+            int row = this.CurrentLocation_x;
+            int col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -68,8 +68,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 col += 1;
@@ -95,8 +95,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -122,8 +122,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 col -= 1;
@@ -156,8 +156,8 @@ namespace Chess.Class.Pieces
         {
             List<Move> availableMoves = new List<Move>();
 
-            int row = CurrentLocation_x;
-            int col = CurrentLocation_y;
+            int row = this.CurrentLocation_x;
+            int col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -183,8 +183,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 col += 1;
@@ -210,8 +210,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -237,8 +237,8 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 col -= 1;
@@ -272,8 +272,8 @@ namespace Chess.Class.Pieces
         {
             List<KeyValuePair<int, int>> checkPath = new List<KeyValuePair<int, int>>();
 
-            int row = CurrentLocation_x;
-            int col = CurrentLocation_y;
+            int row = this.CurrentLocation_x;
+            int col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row -= 1;
@@ -289,7 +289,6 @@ namespace Chess.Class.Pieces
                         if (piece.Color != this.Color)
                         {
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
-
                             if (piece.Type == TypeEnum.King)
                             {
                                 return checkPath;
@@ -306,8 +305,8 @@ namespace Chess.Class.Pieces
 
 
             checkPath = new List<KeyValuePair<int, int>>();
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 col += 1;
@@ -323,7 +322,6 @@ namespace Chess.Class.Pieces
                         if (piece.Color != this.Color)
                         {
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
-
                             if (piece.Type == TypeEnum.King)
                             {
                                 return checkPath;
@@ -339,8 +337,8 @@ namespace Chess.Class.Pieces
             }
 
             checkPath = new List<KeyValuePair<int, int>>();
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 row += 1;
@@ -356,7 +354,6 @@ namespace Chess.Class.Pieces
                         if (piece.Color != this.Color)
                         {
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
-
                             if (piece.Type == TypeEnum.King)
                             {
                                 return checkPath;
@@ -372,8 +369,8 @@ namespace Chess.Class.Pieces
             }
 
             checkPath = new List<KeyValuePair<int, int>>();
-            row = CurrentLocation_x;
-            col = CurrentLocation_y;
+            row = this.CurrentLocation_x;
+            col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
                 col -= 1;
@@ -389,7 +386,6 @@ namespace Chess.Class.Pieces
                         if (piece.Color != this.Color)
                         {
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
-
                             if (piece.Type == TypeEnum.King)
                             {
                                 return checkPath;
@@ -410,8 +406,8 @@ namespace Chess.Class.Pieces
 
         public void Move(int x, int y)
         {
-            CurrentLocation_x = x;
-            CurrentLocation_y = y;
+            this.CurrentLocation_x = x;
+            this.CurrentLocation_y = y;
 
             HasMoved = true;
         }

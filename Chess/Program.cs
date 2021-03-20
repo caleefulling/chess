@@ -9,16 +9,7 @@ namespace Chess
     {
         public static void Main(string[] args)
         {
-            Board board;
-            bool manualBoard = false;
-            if (manualBoard)
-            {
-                board = new Board(true);
-            }
-            else
-            {
-                board = new Board();
-            }
+            Board board = new Board(args[0]);
 
             bool validMove;
             while (!board.WhiteKing.IsCheckMate(board) && !board.BlackKing.IsCheckMate(board))
@@ -41,7 +32,7 @@ namespace Chess
                 {
                     // castle kingside
                     var king = board.ColorToMove == ColorEnum.Black ? board.BlackKing : board.WhiteKing;
-                    var canCastleResult = king.CanCastleOnKingSide(board);
+                    var canCastleResult = king.CanCastleKingSide(board);
                     if (canCastleResult.canCastle)
                     {
                         var castleResult = king.CastleKingSide(board);
@@ -63,7 +54,7 @@ namespace Chess
                 {
                     // castle queenside
                     var king = board.ColorToMove == ColorEnum.Black ? board.BlackKing : board.WhiteKing;
-                    var canCastleResult = king.CanCastleOnQueenSide(board);
+                    var canCastleResult = king.CanCastleQueenSide(board);
                     if (canCastleResult.canCastle)
                     {
                         var castleResult = king.CastleQueenSide(board);

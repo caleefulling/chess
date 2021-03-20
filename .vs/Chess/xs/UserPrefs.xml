@@ -1,11 +1,10 @@
 ﻿<Properties StartupConfiguration="{E2E6BF67-78F6-47CC-914F-8B1BAF85C569}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Chess/Class/Move.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Chess/Class/Pieces/King.cs" Line="365" Column="1" />
-      <File FileName="Chess/Class/Pieces/Knight.cs" Line="1" Column="1" />
-      <File FileName="Chess/Program.cs" Line="25" Column="30" />
-      <File FileName="Chess/Class/Board.cs" Line="521" Column="142" />
-      <File FileName="Chess/Class/Move.cs" Line="11" Column="1" />
+      <File FileName="Chess/Class/Pieces/Knight.cs" Line="7" Column="19" />
+      <File FileName="Chess/Program.cs" Line="41" Column="46" />
+      <File FileName="Chess/Class/Board.cs" Line="424" Column="1" />
+      <File FileName="Chess/Class/Pieces/Pawn.cs" Line="5" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,8 +12,9 @@
           <Node name="Chess" expanded="True">
             <Node name="Chess" expanded="True">
               <Node name="Class" expanded="True">
-                <Node name="Pieces" expanded="True" />
-                <Node name="Move.cs" selected="True" />
+                <Node name="Pieces" expanded="True">
+                  <Node name="Pawn.cs" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>
@@ -28,7 +28,7 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/caleefulling/Projects/Chess/Chess/Program.cs" relfile="Chess/Program.cs" line="155" column="1" />
-      <Breakpoint file="/Users/caleefulling/Projects/Chess/Chess/Class/Move.cs" relfile="Chess/Class/Move.cs" line="37" column="1" />
+      <Breakpoint file="/Users/caleefulling/Projects/Chess/Chess/Class/Move.cs" relfile="Chess/Class/Move.cs" line="39" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

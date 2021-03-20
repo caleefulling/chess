@@ -28,8 +28,8 @@ namespace Chess.Class.Pieces
 
         public Pawn(int x, int y, ColorEnum color)
         {
-            CurrentLocation_x = x;
-            CurrentLocation_y = y;
+            this.CurrentLocation_x = x;
+            this.CurrentLocation_y = y;
 
             Type = TypeEnum.Pawn;
             BoardNotation = 'P';
@@ -43,58 +43,58 @@ namespace Chess.Class.Pieces
 
             int ColorEnumMultiplier = this.Color == ColorEnum.White ? -1 : 1;
             // check space row +/- 1
-            if (board.Instance[CurrentLocation_x + (1 * ColorEnumMultiplier), CurrentLocation_y] == null)
+            if (board.Instance[this.CurrentLocation_x + (1 * ColorEnumMultiplier), this.CurrentLocation_y] == null)
             {
-                availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + (1 * ColorEnumMultiplier), CurrentLocation_y));
+                availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x + (1 * ColorEnumMultiplier), this.CurrentLocation_y));
             }
 
             // on home row, row +/- 2 available move
             if (!this.HasMoved)
             {
-                if (board.Instance[CurrentLocation_x + (2 * ColorEnumMultiplier), CurrentLocation_y] == null)
+                if (board.Instance[this.CurrentLocation_x + (2 * ColorEnumMultiplier), this.CurrentLocation_y] == null)
                 {
-                    availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + (2 * ColorEnumMultiplier), CurrentLocation_y));
+                    availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x + (2 * ColorEnumMultiplier), this.CurrentLocation_y));
                 }
             }
 
             // potential captures
             if (this.Color == ColorEnum.White)
             {
-                if (CurrentLocation_x - 1 >= 0 && CurrentLocation_y + 1 <= 7)
+                if (this.CurrentLocation_x - 1 >= 0 && this.CurrentLocation_y + 1 <= 7)
                 {
-                    var piece = board.Instance[CurrentLocation_x - 1, CurrentLocation_y + 1];
+                    var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y + 1];
                     if (piece != null && piece.Color != this.Color)
                     {
-                        availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y + 1));
+                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y + 1));
                     }
                 }
 
-                if (CurrentLocation_x - 1 >= 0 && CurrentLocation_y - 1 >= 0)
+                if (this.CurrentLocation_x - 1 >= 0 && this.CurrentLocation_y - 1 >= 0)
                 {
-                    var piece = board.Instance[CurrentLocation_x - 1, CurrentLocation_y - 1];
+                    var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y - 1];
                     if (piece != null && piece.Color != this.Color)
                     {
-                        availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y - 1));
+                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y - 1));
                     }
                 }
             }
             else
             {
-                if (CurrentLocation_x + 1 <= 7 && CurrentLocation_y + 1 <= 7)
+                if (this.CurrentLocation_x + 1 <= 7 && this.CurrentLocation_y + 1 <= 7)
                 {
-                    var piece = board.Instance[CurrentLocation_x + 1, CurrentLocation_y + 1];
+                    var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y + 1];
                     if (piece != null && piece.Color != this.Color)
                     {
-                        availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y + 1));
+                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y + 1));
                     }
                 }
 
-                if (CurrentLocation_x + 1 <= 7 && CurrentLocation_y - 1 >= 0)
+                if (this.CurrentLocation_x + 1 <= 7 && this.CurrentLocation_y - 1 >= 0)
                 {
-                    var piece = board.Instance[CurrentLocation_x + 1, CurrentLocation_y - 1];
+                    var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y - 1];
                     if (piece != null && piece.Color != this.Color)
                     {
-                        availableMoves.Add(new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y - 1));
+                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y - 1));
                     }
                 }
             }
@@ -108,58 +108,58 @@ namespace Chess.Class.Pieces
 
             int colorEnumMultiplier = this.Color == ColorEnum.White ? -1 : 1;
             // check space row +/- 1
-            if (board.Instance[CurrentLocation_x + (1 * colorEnumMultiplier), CurrentLocation_y] == null)
+            if (board.Instance[this.CurrentLocation_x + (1 * colorEnumMultiplier), this.CurrentLocation_y] == null)
             {
-                availableMoves.Add(new Move(this, new KeyValuePair<int, int>(CurrentLocation_x + (1 * colorEnumMultiplier), CurrentLocation_y)));
+                availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + (1 * colorEnumMultiplier), this.CurrentLocation_y)));
             }
 
             // on home row, row +/- 2 available move
             if (!this.HasMoved)
             {
-                if (board.Instance[CurrentLocation_x + (2 * colorEnumMultiplier), CurrentLocation_y] == null)
+                if (board.Instance[this.CurrentLocation_x + (2 * colorEnumMultiplier), this.CurrentLocation_y] == null)
                 {
-                    availableMoves.Add(new Move(this, new KeyValuePair<int, int>(CurrentLocation_x + (2 * colorEnumMultiplier), CurrentLocation_y)));
+                    availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + (2 * colorEnumMultiplier), this.CurrentLocation_y)));
                 }
             }
 
             // potential captures
             if (this.Color == ColorEnum.White)
             {
-                if (CurrentLocation_x - 1 >= 0 && CurrentLocation_y + 1 <= 7)
+                if (this.CurrentLocation_x - 1 >= 0 && this.CurrentLocation_y + 1 <= 7)
                 {
-                    var piece = board.Instance[CurrentLocation_x - 1, CurrentLocation_y + 1];
+                    var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y + 1];
                     if (piece != null && piece.Color != this.Color)
                     {
-                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y + 1), piece));
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y + 1), piece));
                     }
                 }
 
-                if (CurrentLocation_x - 1 >= 0 && CurrentLocation_y - 1 >= 0)
+                if (this.CurrentLocation_x - 1 >= 0 && this.CurrentLocation_y - 1 >= 0)
                 {
-                    var piece = board.Instance[CurrentLocation_x - 1, CurrentLocation_y - 1];
+                    var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y - 1];
                     if (piece != null && piece.Color != this.Color)
                     {
-                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(CurrentLocation_x - 1, CurrentLocation_y - 1), piece));
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y - 1), piece));
                     }
                 }
             }
             else
             {
-                if (CurrentLocation_x + 1 <= 7 && CurrentLocation_y + 1 <= 7)
+                if (this.CurrentLocation_x + 1 <= 7 && this.CurrentLocation_y + 1 <= 7)
                 {
-                    var piece = board.Instance[CurrentLocation_x + 1, CurrentLocation_y + 1];
+                    var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y + 1];
                     if (piece != null && piece.Color != this.Color)
                     {
-                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y + 1), piece));
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y + 1), piece));
                     }
                 }
 
-                if (CurrentLocation_x + 1 <= 7 && CurrentLocation_y - 1 >= 0)
+                if (this.CurrentLocation_x + 1 <= 7 && this.CurrentLocation_y - 1 >= 0)
                 {
-                    var piece = board.Instance[CurrentLocation_x + 1, CurrentLocation_y - 1];
+                    var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y - 1];
                     if (piece != null && piece.Color != this.Color)
                     {
-                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(CurrentLocation_x + 1, CurrentLocation_y - 1), piece));
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y - 1), piece));
                     }
                 }
             }
@@ -176,10 +176,10 @@ namespace Chess.Class.Pieces
 
         public void Move(int x, int y)
         {
-            CurrentLocation_x = x;
-            CurrentLocation_y = y;
+            this.CurrentLocation_x = x;
+            this.CurrentLocation_y = y;
 
-            HasMoved = true;
+            this.HasMoved = true;
         }
     }
 }

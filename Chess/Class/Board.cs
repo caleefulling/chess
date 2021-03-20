@@ -27,61 +27,64 @@ namespace Chess.Class.Board
 
         public List<IPiece> CapturedWhitePieces { get; set; }
 
-        public Board()
+        public Board(string manualBoard)
         {
-            ColorToMove = ColorEnum.White;
-            Instance = new IPiece[8, 8];
-            CapturedBlackPieces = new List<IPiece>();
-            CapturedWhitePieces = new List<IPiece>();
+            this.ColorToMove = ColorEnum.White;
+            this.Instance = new IPiece[8, 8];
+            this.CapturedBlackPieces = new List<IPiece>();
+            this.CapturedWhitePieces = new List<IPiece>();
 
-            // black
-            Instance[0, 0] = new Rook(0, 0, ColorEnum.Black);
-            Instance[0, 1] = new Knight(0, 1, ColorEnum.Black);
-            Instance[0, 2] = new Bishop(0, 2, ColorEnum.Black);
-            Instance[0, 3] = new Queen(0, 3, ColorEnum.Black);
-            Instance[0, 4] = new King(0, 4, ColorEnum.Black);
-            BlackKing = (King)Instance[0, 4];
-            Instance[0, 5] = new Bishop(0, 5, ColorEnum.Black);
-            Instance[0, 6] = new Knight(0, 6, ColorEnum.Black);
-            Instance[0, 7] = new Rook(0, 7, ColorEnum.Black);
+            if (Convert.ToBoolean(manualBoard))
+            {
+                this.ManualBoardSetup();
+            }
+            else
+            {
+                // standard board initiation 
+                this.Instance[0, 0] = new Rook(0, 0, ColorEnum.Black);
+                this.Instance[0, 1] = new Knight(0, 1, ColorEnum.Black);
+                this.Instance[0, 2] = new Bishop(0, 2, ColorEnum.Black);
+                this.Instance[0, 3] = new Queen(0, 3, ColorEnum.Black);
+                this.Instance[0, 4] = new King(0, 4, ColorEnum.Black);
+                this.BlackKing = (King)Instance[0, 4];
+                this.Instance[0, 5] = new Bishop(0, 5, ColorEnum.Black);
+                this.Instance[0, 6] = new Knight(0, 6, ColorEnum.Black);
+                this.Instance[0, 7] = new Rook(0, 7, ColorEnum.Black);
 
-            Instance[1, 0] = new Pawn(1, 0, ColorEnum.Black);
-            Instance[1, 1] = new Pawn(1, 1, ColorEnum.Black);
-            Instance[1, 2] = new Pawn(1, 2, ColorEnum.Black);
-            Instance[1, 3] = new Pawn(1, 3, ColorEnum.Black);
-            Instance[1, 4] = new Pawn(1, 4, ColorEnum.Black);
-            Instance[1, 5] = new Pawn(1, 5, ColorEnum.Black);
-            Instance[1, 6] = new Pawn(1, 6, ColorEnum.Black);
-            Instance[1, 7] = new Pawn(1, 7, ColorEnum.Black);
+                this.Instance[1, 0] = new Pawn(1, 0, ColorEnum.Black);
+                this.Instance[1, 1] = new Pawn(1, 1, ColorEnum.Black);
+                this.Instance[1, 2] = new Pawn(1, 2, ColorEnum.Black);
+                this.Instance[1, 3] = new Pawn(1, 3, ColorEnum.Black);
+                this.Instance[1, 4] = new Pawn(1, 4, ColorEnum.Black);
+                this.Instance[1, 5] = new Pawn(1, 5, ColorEnum.Black);
+                this.Instance[1, 6] = new Pawn(1, 6, ColorEnum.Black);
+                this.Instance[1, 7] = new Pawn(1, 7, ColorEnum.Black);
 
-            // white
-            Instance[6, 0] = new Pawn(6, 0, ColorEnum.White);
-            Instance[6, 1] = new Pawn(6, 1, ColorEnum.White);
-            Instance[6, 2] = new Pawn(6, 2, ColorEnum.White);
-            Instance[6, 3] = new Pawn(6, 3, ColorEnum.White);
-            Instance[6, 4] = new Pawn(6, 4, ColorEnum.White);
-            Instance[6, 5] = new Pawn(6, 5, ColorEnum.White);
-            Instance[6, 6] = new Pawn(6, 6, ColorEnum.White);
-            Instance[6, 7] = new Pawn(6, 7, ColorEnum.White);
 
-            Instance[7, 0] = new Rook(7, 0, ColorEnum.White);
-            Instance[7, 1] = new Knight(7, 1, ColorEnum.White);
-            Instance[7, 2] = new Bishop(7, 2, ColorEnum.White);
-            Instance[7, 3] = new Queen(7, 3, ColorEnum.White);
-            Instance[7, 4] = new King(7, 4, ColorEnum.White);
-            WhiteKing = (King)Instance[7, 4];
-            Instance[7, 5] = new Bishop(7, 5, ColorEnum.White);
-            Instance[7, 6] = new Knight(7, 6, ColorEnum.White);
-            Instance[7, 7] = new Rook(7, 7, ColorEnum.White);
+                this.Instance[6, 0] = new Pawn(6, 0, ColorEnum.White);
+                this.Instance[6, 1] = new Pawn(6, 1, ColorEnum.White);
+                this.Instance[6, 2] = new Pawn(6, 2, ColorEnum.White);
+                this.Instance[6, 3] = new Pawn(6, 3, ColorEnum.White);
+                this.Instance[6, 4] = new Pawn(6, 4, ColorEnum.White);
+                this.Instance[6, 5] = new Pawn(6, 5, ColorEnum.White);
+                this.Instance[6, 6] = new Pawn(6, 6, ColorEnum.White);
+                this.Instance[6, 7] = new Pawn(6, 7, ColorEnum.White);
+
+                this.Instance[7, 0] = new Rook(7, 0, ColorEnum.White);
+                this.Instance[7, 1] = new Knight(7, 1, ColorEnum.White);
+                this.Instance[7, 2] = new Bishop(7, 2, ColorEnum.White);
+                this.Instance[7, 3] = new Queen(7, 3, ColorEnum.White);
+                this.Instance[7, 4] = new King(7, 4, ColorEnum.White);
+                this.WhiteKing = (King)Instance[7, 4];
+                this.Instance[7, 5] = new Bishop(7, 5, ColorEnum.White);
+                this.Instance[7, 6] = new Knight(7, 6, ColorEnum.White);
+                this.Instance[7, 7] = new Rook(7, 7, ColorEnum.White);
+            }
         }
 
-        public Board(bool manualBoard)
+        // manual board initiation 
+        public void ManualBoardSetup()
         {
-            ColorToMove = ColorEnum.White;
-            Instance = new IPiece[8, 8];
-            CapturedBlackPieces = new List<IPiece>();
-            CapturedWhitePieces = new List<IPiece>();
-
             Console.WriteLine("enter black positions");
 
             bool exit = false;
@@ -123,9 +126,7 @@ namespace Chess.Class.Board
                             this.Instance[coordinates.Key, coordinates.Value] = new Knight(coordinates.Key, coordinates.Value, ColorEnum.Black);
                             break;
                         case "P":
-                            Pawn pawn = new Pawn(coordinates.Key, coordinates.Value, ColorEnum.Black);
-                            //pawn.HasMoved = true;
-                            this.Instance[coordinates.Key, coordinates.Value] = pawn;
+                            this.Instance[coordinates.Key, coordinates.Value] = new Pawn(coordinates.Key, coordinates.Value, ColorEnum.Black);
                             break;
                         case "K":
                             this.Instance[coordinates.Key, coordinates.Value] = new King(coordinates.Key, coordinates.Value, ColorEnum.Black);
@@ -159,7 +160,6 @@ namespace Chess.Class.Board
                 if (input == "undo")
                 {
                     this.Instance[prevCoordinates.Key, prevCoordinates.Value] = null;
-                    this.BlackKing = null;
                     continue;
                 }
 
@@ -182,9 +182,7 @@ namespace Chess.Class.Board
                             this.Instance[coordinates.Key, coordinates.Value] = new Knight(coordinates.Key, coordinates.Value, ColorEnum.White);
                             break;
                         case "P":
-                            Pawn pawn = new Pawn(coordinates.Key, coordinates.Value, ColorEnum.White);
-                            //pawn.HasMoved = true;
-                            this.Instance[coordinates.Key, coordinates.Value] = pawn;
+                            this.Instance[coordinates.Key, coordinates.Value] = new Pawn(coordinates.Key, coordinates.Value, ColorEnum.White);
                             break;
                         case "K":
                             this.Instance[coordinates.Key, coordinates.Value] = new King(coordinates.Key, coordinates.Value, ColorEnum.White);
@@ -236,12 +234,12 @@ namespace Chess.Class.Board
                     }
                 }
 
-                if (i == 0 && CapturedWhitePieces.Count > 0)
+                if (i == 0 && this.CapturedWhitePieces.Count > 0)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write($"  ");
 
-                    foreach (var pieceToPrint in CapturedWhitePieces.OrderByDescending(e => e.Value))
+                    foreach (var pieceToPrint in this.CapturedWhitePieces.OrderByDescending(e => e.Value))
                     {
                         Console.Write($"{pieceToPrint.BoardNotation} ");
                     }
@@ -251,12 +249,12 @@ namespace Chess.Class.Board
                         Console.Write($"(up {this.BlackScore})");
                     }
                 }
-                else if (i == 7 && CapturedBlackPieces.Count > 0)
+                else if (i == 7 && this.CapturedBlackPieces.Count > 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.Write($"  ");
 
-                    foreach (var pieceToPrint in CapturedBlackPieces.OrderByDescending(e => e.Value))
+                    foreach (var pieceToPrint in this.CapturedBlackPieces.OrderByDescending(e => e.Value))
                     {
                         Console.Write($"{pieceToPrint.BoardNotation} ");
                     }
@@ -274,71 +272,71 @@ namespace Chess.Class.Board
         public KeyValuePair<int, int> ConvertNotationForMove(string move)
         {
             var moveArray = move.ToCharArray();
-            int x = 0;
+            int column = 0;
             switch (moveArray[0].ToString().ToLower())
             {
                 case "a":
-                    x = 0;
+                    column = 0;
                     break;
                 case "b":
-                    x = 1;
+                    column = 1;
                     break;
                 case "c":
-                    x = 2;
+                    column = 2;
                     break;
                 case "d":
-                    x = 3;
+                    column = 3;
                     break;
                 case "e":
-                    x = 4;
+                    column = 4;
                     break;
                 case "f":
-                    x = 5;
+                    column = 5;
                     break;
                 case "g":
-                    x = 6;
+                    column = 6;
                     break;
                 case "h":
-                    x = 7;
+                    column = 7;
                     break;
                 default:
-                    x = 8;
+                    column = 8;
                     break;
             }
 
-            int y = 0;
+            int row = 0;
             switch (moveArray[1])
             {
                 case '8':
-                    y = 0;
+                    row = 0;
                     break;
                 case '7':
-                    y = 1;
+                    row = 1;
                     break;
                 case '6':
-                    y = 2;
+                    row = 2;
                     break;
                 case '5':
-                    y = 3;
+                    row = 3;
                     break;
                 case '4':
-                    y = 4;
+                    row = 4;
                     break;
                 case '3':
-                    y = 5;
+                    row = 5;
                     break;
                 case '2':
-                    y = 6;
+                    row = 6;
                     break;
                 case '1':
-                    y = 7;
+                    row = 7;
                     break;
                 default:
-                    y = 8;
+                    row = 8;
                     break;
             }
 
-            return new KeyValuePair<int, int>(y, x);
+            return new KeyValuePair<int, int>(row, column);
         }
 
         public string ConvertMoveForNotation(int row, int column)
@@ -405,27 +403,27 @@ namespace Chess.Class.Board
 
         public void MovePiece(IPiece piece, int x, int y)
         {
-            if (Instance[x, y] != null)
+            if (this.Instance[x, y] != null)
             {
                 // is a capture. update scores
-                var capturedPiece = Instance[x, y];
+                var capturedPiece = this.Instance[x, y];
                 switch (capturedPiece.Color)
                 {
                     case ColorEnum.Black:
                         this.WhiteScore += capturedPiece.Value;
                         this.BlackScore -= capturedPiece.Value;
-                        CapturedBlackPieces.Add(capturedPiece);
+                        this.CapturedBlackPieces.Add(capturedPiece);
                         break;
                     case ColorEnum.White:
                         this.BlackScore += capturedPiece.Value;
                         this.WhiteScore -= capturedPiece.Value;
-                        CapturedWhitePieces.Add(capturedPiece);
+                        this.CapturedWhitePieces.Add(capturedPiece);
                         break;
                 }
             }
 
-            Instance[x, y] = piece;
-            Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = null;
+            this.Instance[x, y] = piece;
+            this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = null;
             piece.Move(x, y);
 
             // pawn promotion
@@ -441,25 +439,22 @@ namespace Chess.Class.Board
             Console.WriteLine("Q R B N");
             while (!valid)
             {
+                valid = true;
                 Console.Write("> ");
                 var newPieceType = Console.ReadLine();
                 switch (newPieceType)
                 {
                     case "Q":
                         this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = new Queen(piece.CurrentLocation_x, piece.CurrentLocation_y, this.ColorToMove);
-                        valid = true;
                         break;
                     case "R":
                         this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = new Rook(piece.CurrentLocation_x, piece.CurrentLocation_y, this.ColorToMove);
-                        valid = true;
                         break;
                     case "B":
                         this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = new Bishop(piece.CurrentLocation_x, piece.CurrentLocation_y, this.ColorToMove);
-                        valid = true;
                         break;
                     case "N":
                         this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = new Knight(piece.CurrentLocation_x, piece.CurrentLocation_y, this.ColorToMove);
-                        valid = true;
                         break;
                     default:
                         valid = false;
