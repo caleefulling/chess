@@ -73,31 +73,9 @@ namespace Chess.Class.Board
             Instance[7, 5] = new Bishop(7, 5, ColorEnum.White);
             Instance[7, 6] = new Knight(7, 6, ColorEnum.White);
             Instance[7, 7] = new Rook(7, 7, ColorEnum.White);
-
-
-            // test checkmate
-            //Instance[0, 0] = new King(0, 0, ColorEnum.Black);
-            //BlackKing = (King)Instance[0, 0];
-
-            //Instance[3, 3] = new Queen(3, 3, ColorEnum.White);
-            //Instance[7, 4] = new King(7, 4, ColorEnum.White);
-            //WhiteKing = (King)Instance[7, 4];
-            //Instance[2, 1] = new Rook(2, 1, ColorEnum.White);
-
-
-            //// test castling
-            //Instance[0, 0] = new Rook(0, 0, ColorEnum.Black);
-            //Instance[0, 4] = new King(0, 4, ColorEnum.Black);
-            //BlackKing = (King)Instance[0, 4];
-            //Instance[0, 7] = new Rook(0, 7, ColorEnum.Black);
-
-            //Instance[7, 0] = new Rook(7, 0, ColorEnum.White);
-            //Instance[7, 4] = new King(7, 4, ColorEnum.White);
-            //WhiteKing = (King)Instance[7, 4];
-            //Instance[7, 7] = new Rook(7, 7, ColorEnum.White);
         }
 
-        public Board(bool setup)
+        public Board(bool manualBoard)
         {
             ColorToMove = ColorEnum.White;
             Instance = new IPiece[8, 8];
@@ -105,17 +83,18 @@ namespace Chess.Class.Board
             CapturedWhitePieces = new List<IPiece>();
 
             Console.WriteLine("enter black positions");
-            // Q b4
-            string input = string.Empty;
+
+            bool exit = false;
+            var input = string.Empty;
             KeyValuePair<int, int> prevCoordinates = new KeyValuePair<int, int>();
-            while (input != "exit")
+            while (!exit)
             {
                 this.PrintBoardWithTakenPieces();
 
                 input = Console.ReadLine();
                 if (input == "next")
                 {
-                    input = "exit";
+                    exit = true;
                     continue;
                 }
 
@@ -145,7 +124,7 @@ namespace Chess.Class.Board
                             break;
                         case "P":
                             Pawn pawn = new Pawn(coordinates.Key, coordinates.Value, ColorEnum.Black);
-                            pawn.HasMoved = true;
+                            //pawn.HasMoved = true;
                             this.Instance[coordinates.Key, coordinates.Value] = pawn;
                             break;
                         case "K":
@@ -163,17 +142,18 @@ namespace Chess.Class.Board
                 }
             }
 
+            exit = false;
             input = string.Empty;
             prevCoordinates = new KeyValuePair<int, int>();
             Console.WriteLine("enter white positions");
             this.PrintBoardWithTakenPieces();
-            while (input != "exit")
+            while (!exit)
             {
                 this.PrintBoardWithTakenPieces();
                 input = Console.ReadLine();
                 if (input == "next")
                 {
-                    input = "exit";
+                    exit = true;
                     continue;
                 }
                 if (input == "undo")
@@ -203,7 +183,7 @@ namespace Chess.Class.Board
                             break;
                         case "P":
                             Pawn pawn = new Pawn(coordinates.Key, coordinates.Value, ColorEnum.White);
-                            pawn.HasMoved = true;
+                            //pawn.HasMoved = true;
                             this.Instance[coordinates.Key, coordinates.Value] = pawn;
                             break;
                         case "K":
@@ -449,8 +429,7 @@ namespace Chess.Class.Board
             piece.Move(x, y);
 
             // pawn promotion
-            if (piece.Type == TypeEnum.Pawn &&
-                (this.ColorToMove == ColorEnum.White && x == 0) || (this.ColorToMove == ColorEnum.Black && x == 7))
+            if (piece.Type == TypeEnum.Pawn && (this.ColorToMove == ColorEnum.White && x == 0) || (this.ColorToMove == ColorEnum.Black && x == 7))
             {
                 PromotePawn(piece);
             }
@@ -502,20 +481,12 @@ namespace Chess.Class.Board
 
         public Move? FindBestMove_OneLayer(Board board, int layer)
         {
-            if (layer > 3)
-            {
-                return null;
-            }
+            //if (layer > 3)
+            //{
+            //    return null;
+            //}
 
             List<Move> moves = new List<Move>();
-            // stuff that might impact a move's "score"
-            //    does the move capture? - done
-            //    does the move put that piece (or any of my pieces) at risk? - done
-            //    if the move is a capture, and it puts that piece (or any piece) at risk, is it worth it in points? - done
-            //    does the move prevent an attack? is it worth it in points if it's now at risk? - done
-            //    is it close to the middle/other side of the board? - done
-            //    does it increase the # of available moves? (offense score)
-            //    does it decrease the # of available moves to the other side? (defense score)
 
             // function for taking the board and finding the point value of pieces currently at risk
             // call this before the move and then after, and compare the point value difference (ie did the move result in an at risk change?)

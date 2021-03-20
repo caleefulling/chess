@@ -7,30 +7,20 @@ namespace Chess
 {
     class MainClass
     {
-        // stuff to do -
-        //   en passant
-        //   draws
-        //       stalemate - the king is NOT in check, but no piece can be moved without putting the king in check
-        //   could refactor GetAvailableMoves to work with the details function, instead of having two
-        //       you could store temp lists for each list, and then add them to a more global var later
-        //          first test performance - is the detail function much slower/less efficient?
-        //   refactor to have a list of white and black pieces at a board level. this way won't have to loop the entire board each time
-        //   attempt at "AI" 
         public static void Main(string[] args)
         {
-            bool manualBoard = true;
-            bool validMove;
-
             Board board;
-            if (!manualBoard)
-            {
-                board = new Board();
-            }
-            else
+            bool manualBoard = false;
+            if (manualBoard)
             {
                 board = new Board(true);
             }
+            else
+            {
+                board = new Board();
+            }
 
+            bool validMove;
             while (!board.WhiteKing.IsCheckMate(board) && !board.BlackKing.IsCheckMate(board))
             {
                 Console.WriteLine($"\n{board.ColorToMove}'s move");
