@@ -27,9 +27,9 @@
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
   <PropertyGroup>
-  <NullableReferenceTypes>true</NullableReferenceTypes>
-  <LangVersion>8.0</LangVersion>
-</PropertyGroup>
+    <NullableReferenceTypes>true</NullableReferenceTypes>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>

@@ -508,7 +508,7 @@ namespace Chess.Class.Board
                 }
             }
 
-            return moves.OrderByDescending(e => e.Score).FirstOrDefault();
+            return moves.OrderBy(e => e.Score).FirstOrDefault();
 
             //return moves.OrderByDescending(e => e.IsCapture).ThenByDescending(e => e.CaptureValue).ThenBy(e => e.AtRiskValue).ThenBy(e => e.MoveLocationScore).FirstOrDefault();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Chess.Class.Enum;
 
 namespace Chess.Class.Pieces
@@ -41,12 +42,23 @@ namespace Chess.Class.Pieces
         {
             List<KeyValuePair<int, int>> availableMoves = new List<KeyValuePair<int, int>>();
 
+            GetAvailableMovesInInterval(board, availableMoves, -1, 0);
+            GetAvailableMovesInInterval(board, availableMoves, 0, -1);
+            GetAvailableMovesInInterval(board, availableMoves, 0, 1);
+            GetAvailableMovesInInterval(board, availableMoves, 1, 0);
+
+            return availableMoves;
+        }
+
+        public void GetAvailableMovesInInterval(Board.Board board, List<KeyValuePair<int, int>> availableMoves, int rowInterval, int colInterval)
+        {
             int row = this.CurrentLocation_x;
             int col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
-                row -= 1;
-                if (row >= 0)
+                row += rowInterval;
+                col += colInterval;
+                if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
@@ -67,217 +79,75 @@ namespace Chess.Class.Pieces
                     break;
                 }
             }
-
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                col += 1;
-                if (col <= 7)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(row, col));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            availableMoves.Add(new KeyValuePair<int, int>(row, col));
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                row += 1;
-                if (row <= 7)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(row, col));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            availableMoves.Add(new KeyValuePair<int, int>(row, col));
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                col -= 1;
-                if (col >= 0)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(row, col));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            availableMoves.Add(new KeyValuePair<int, int>(row, col));
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return availableMoves;
         }
 
         public List<Move> AvailableMovesWithDetails(Board.Board board)
         {
             List<Move> availableMoves = new List<Move>();
 
-            int row = this.CurrentLocation_x;
-            int col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                row -= 1;
-                if (row >= 0)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                col += 1;
-                if (col <= 7)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                row += 1;
-                if (row <= 7)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                col -= 1;
-                if (col >= 0)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
+            GetAvailableMovesWithDetailsInInterval(board, availableMoves, -1, 0);
+            GetAvailableMovesWithDetailsInInterval(board, availableMoves, 0, -1);
+            GetAvailableMovesWithDetailsInInterval(board, availableMoves, 0, 1);
+            GetAvailableMovesWithDetailsInInterval(board, availableMoves, 1, 0);
 
             return availableMoves;
         }
 
+        public void GetAvailableMovesWithDetailsInInterval(Board.Board board, List<Move> availableMoves, int rowInterval, int colInterval)
+        {
+            int row = this.CurrentLocation_x;
+            int col = this.CurrentLocation_y;
+            for (int i = 0; i <= 7; i++)
+            {
+                row += rowInterval;
+                col += colInterval;
+                if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
+                {
+                    var piece = board.Instance[row, col];
+                    if (piece == null)
+                    {
+                        availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col)));
+                    }
+                    else
+                    {
+                        if (piece.Color != this.Color)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
 
         public List<KeyValuePair<int, int>> GetCheckPath(Board.Board board)
         {
             List<KeyValuePair<int, int>> checkPath = new List<KeyValuePair<int, int>>();
 
+            GetCheckPathInInterval(board, checkPath, -1, 0);
+            if (!checkPath.Any())
+                GetCheckPathInInterval(board, checkPath, 0, -1);
+            if (!checkPath.Any())
+                GetCheckPathInInterval(board, checkPath, 0, 1);
+            if (!checkPath.Any())
+                GetCheckPathInInterval(board, checkPath, 1, 0);
+
+            return checkPath;
+        }
+
+        public void GetCheckPathInInterval(Board.Board board, List<KeyValuePair<int, int>> checkPath, int rowInterval, int colInterval)
+        {
             int row = this.CurrentLocation_x;
             int col = this.CurrentLocation_y;
             for (int i = 0; i <= 7; i++)
             {
-                row -= 1;
-                if (row >= 0)
+                row += rowInterval;
+                col += colInterval;
+                if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
@@ -291,43 +161,13 @@ namespace Chess.Class.Pieces
                             checkPath.Add(new KeyValuePair<int, int>(row, col));
                             if (piece.Type == TypeEnum.King)
                             {
-                                return checkPath;
+                                return;
                             }
                         }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-
-            checkPath = new List<KeyValuePair<int, int>>();
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                col += 1;
-                if (col <= 7)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        checkPath.Add(new KeyValuePair<int, int>(row, col));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
+                        else
                         {
-                            checkPath.Add(new KeyValuePair<int, int>(row, col));
-                            if (piece.Type == TypeEnum.King)
-                            {
-                                return checkPath;
-                            }
+                            break;
                         }
-                        break;
                     }
                 }
                 else
@@ -337,70 +177,6 @@ namespace Chess.Class.Pieces
             }
 
             checkPath = new List<KeyValuePair<int, int>>();
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                row += 1;
-                if (row <= 7)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        checkPath.Add(new KeyValuePair<int, int>(row, col));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            checkPath.Add(new KeyValuePair<int, int>(row, col));
-                            if (piece.Type == TypeEnum.King)
-                            {
-                                return checkPath;
-                            }
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            checkPath = new List<KeyValuePair<int, int>>();
-            row = this.CurrentLocation_x;
-            col = this.CurrentLocation_y;
-            for (int i = 0; i <= 7; i++)
-            {
-                col -= 1;
-                if (col >= 0)
-                {
-                    var piece = board.Instance[row, col];
-                    if (piece == null)
-                    {
-                        checkPath.Add(new KeyValuePair<int, int>(row, col));
-                    }
-                    else
-                    {
-                        if (piece.Color != this.Color)
-                        {
-                            checkPath.Add(new KeyValuePair<int, int>(row, col));
-                            if (piece.Type == TypeEnum.King)
-                            {
-                                return checkPath;
-                            }
-                        }
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return new List<KeyValuePair<int, int>>();
         }
 
 

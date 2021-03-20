@@ -42,313 +42,81 @@ namespace Chess.Class.Pieces
         {
             List<KeyValuePair<int, int>> availableMoves = new List<KeyValuePair<int, int>>();
 
-            if (this.CurrentLocation_x - 1 >= 0 && this.CurrentLocation_y - 1 >= 0)
-            {
-                var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y - 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x - 1, this.CurrentLocation_y - 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y - 1));
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x - 1 >= 0 && this.CurrentLocation_y + 1 <= 7)
-            {
-                var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y + 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x - 1, this.CurrentLocation_y + 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y + 1));
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x + 1 <= 7 && this.CurrentLocation_y + 1 <= 7)
-            {
-                var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y + 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x + 1, this.CurrentLocation_y + 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y + 1));
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x + 1 <= 7 && this.CurrentLocation_y - 1 >= 0)
-            {
-                var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y - 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x + 1, this.CurrentLocation_y - 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y - 1));
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x - 1 >= 0)
-            {
-                var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x - 1, this.CurrentLocation_y);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y));
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_y - 1 >= 0)
-            {
-                var piece = board.Instance[this.CurrentLocation_x, this.CurrentLocation_y - 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x, this.CurrentLocation_y - 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x, this.CurrentLocation_y - 1));
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x + 1 <= 7)
-            {
-                var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x + 1, this.CurrentLocation_y);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y));
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_y + 1 <= 7)
-            {
-                var piece = board.Instance[this.CurrentLocation_x, this.CurrentLocation_y + 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x, this.CurrentLocation_y + 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x, this.CurrentLocation_y + 1));
-                    }
-                }
-            }
-
+            GetAvailableMove(board, availableMoves, -1, -1);
+            GetAvailableMove(board, availableMoves, -1, 1);
+            GetAvailableMove(board, availableMoves, -1, 0);
+            GetAvailableMove(board, availableMoves, 0, -1);
+            GetAvailableMove(board, availableMoves, 0, 1);
+            GetAvailableMove(board, availableMoves, 1, -1);
+            GetAvailableMove(board, availableMoves, 1, 0);
+            GetAvailableMove(board, availableMoves, 1, 1);
 
             return availableMoves;
+        }
+
+        public void GetAvailableMove(Board.Board board, List<KeyValuePair<int, int>> availableMoves, int rowInterval, int colInterval)
+        {
+            var row = this.CurrentLocation_x + rowInterval;
+            var column = this.CurrentLocation_y + colInterval;
+            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+            {
+                var piece = board.Instance[row, column];
+                if (piece == null || (piece != null && piece.Color != this.Color))
+                {
+                    var kingCopy = (King)board.DeepClone(this);
+                    var simBoard = (Board.Board)board.DeepClone(board);
+                    simBoard.MovePiece(kingCopy, row, column);
+                    if (!kingCopy.IsInCheck(simBoard))
+                    {
+                        availableMoves.Add(new KeyValuePair<int, int>(row, column));
+                    }
+                }
+            }
         }
 
         public List<Move> AvailableMovesWithDetails(Board.Board board)
         {
             List<Move> availableMoves = new List<Move>();
 
-            if (this.CurrentLocation_x - 1 >= 0 && this.CurrentLocation_y - 1 >= 0)
-            {
-                var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y - 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x - 1, this.CurrentLocation_y - 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        if (piece != null)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y - 1), piece));
-                        }
-                        else
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y - 1)));
-                        }
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x - 1 >= 0 && this.CurrentLocation_y + 1 <= 7)
-            {
-                var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y + 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x - 1, this.CurrentLocation_y + 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        if (piece != null)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y + 1), piece));
-                        }
-                        else
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y + 1)));
-                        }
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x + 1 <= 7 && this.CurrentLocation_y + 1 <= 7)
-            {
-                var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y + 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x + 1, this.CurrentLocation_y + 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        if (piece != null)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y + 1), piece));
-                        }
-                        else
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y + 1)));
-                        }
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x + 1 <= 7 && this.CurrentLocation_y - 1 >= 0)
-            {
-                var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y - 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x + 1, this.CurrentLocation_y - 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        if (piece != null)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y - 1), piece));
-                        }
-                        else
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y - 1)));
-                        }
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x - 1 >= 0)
-            {
-                var piece = board.Instance[this.CurrentLocation_x - 1, this.CurrentLocation_y];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x - 1, this.CurrentLocation_y);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        if (piece != null)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y), piece));
-                        }
-                        else
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x - 1, this.CurrentLocation_y)));
-                        }
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_y - 1 >= 0)
-            {
-                var piece = board.Instance[this.CurrentLocation_x, this.CurrentLocation_y - 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x, this.CurrentLocation_y - 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        if (piece != null)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x, this.CurrentLocation_y - 1), piece));
-                        }
-                        else
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x, this.CurrentLocation_y - 1)));
-                        }
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_x + 1 <= 7)
-            {
-                var piece = board.Instance[this.CurrentLocation_x + 1, this.CurrentLocation_y];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x + 1, this.CurrentLocation_y);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        if (piece != null)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y), piece));
-                        }
-                        else
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x + 1, this.CurrentLocation_y)));
-                        }
-                    }
-                }
-            }
-
-            if (this.CurrentLocation_y + 1 <= 7)
-            {
-                var piece = board.Instance[this.CurrentLocation_x, this.CurrentLocation_y + 1];
-                if (piece == null || (piece != null && piece.Color != this.Color))
-                {
-                    var kingCopy = (King)board.DeepClone(this);
-                    var simBoard = (Board.Board)board.DeepClone(board);
-                    simBoard.MovePiece(kingCopy, this.CurrentLocation_x, this.CurrentLocation_y + 1);
-                    if (!kingCopy.IsInCheck(simBoard))
-                    {
-                        if (piece != null)
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x, this.CurrentLocation_y + 1), piece));
-                        }
-                        else
-                        {
-                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(this.CurrentLocation_x, this.CurrentLocation_y + 1)));
-                        }
-                    }
-                }
-            }
-
+            GetAvailableMoveWithDetails(board, availableMoves, -1, -1);
+            GetAvailableMoveWithDetails(board, availableMoves, -1, 1);
+            GetAvailableMoveWithDetails(board, availableMoves, -1, 0);
+            GetAvailableMoveWithDetails(board, availableMoves, 0, -1);
+            GetAvailableMoveWithDetails(board, availableMoves, 0, 1);
+            GetAvailableMoveWithDetails(board, availableMoves, 1, -1);
+            GetAvailableMoveWithDetails(board, availableMoves, 1, 0);
+            GetAvailableMoveWithDetails(board, availableMoves, 1, 1);
 
             return availableMoves;
         }
+
+        public void GetAvailableMoveWithDetails(Board.Board board, List<Move> availableMoves, int rowInterval, int colInterval)
+        {
+            var row = this.CurrentLocation_x + rowInterval;
+            var column = this.CurrentLocation_y + colInterval;
+            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+            {
+                var piece = board.Instance[row, column];
+                if (piece == null || (piece != null && piece.Color != this.Color))
+                {
+                    var kingCopy = (King)board.DeepClone(this);
+                    var simBoard = (Board.Board)board.DeepClone(board);
+                    simBoard.MovePiece(kingCopy, row, column);
+                    if (!kingCopy.IsInCheck(simBoard))
+                    {
+                        if (piece != null)
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, column), piece));
+                        }
+                        else
+                        {
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, column)));
+                        }
+                    }
+                }
+            }
+        }
+
 
         public void Move(int x, int y)
         {
