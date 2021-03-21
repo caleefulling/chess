@@ -147,7 +147,6 @@ namespace Chess.Class.Board
             input = string.Empty;
             prevCoordinates = new KeyValuePair<int, int>();
             Console.WriteLine("enter white positions");
-            this.PrintBoardWithTakenPieces();
             while (!exit)
             {
                 this.PrintBoardWithTakenPieces();
@@ -266,6 +265,7 @@ namespace Chess.Class.Board
                 }
 
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 

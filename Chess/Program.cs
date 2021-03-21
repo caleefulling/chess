@@ -25,8 +25,16 @@ namespace Chess
                 }
                 else if (command.Contains("best"))
                 {
-                    var move = board.FindBestMove_OneLayer(board, 1);
-                    Console.WriteLine($"best - {board.ConvertMoveForNotation(move.Piece.CurrentLocation_x, move.Piece.CurrentLocation_y)} {board.ConvertMoveForNotation(move.MoveCoordinates.Key, move.MoveCoordinates.Value)}");
+                    var bestMove = board.FindBestMove_OneLayer(board, 1);
+                    Console.WriteLine($"best move - {board.ConvertMoveForNotation(bestMove.Piece.CurrentLocation_x, bestMove.Piece.CurrentLocation_y)} {board.ConvertMoveForNotation(bestMove.MoveCoordinates.Key, bestMove.MoveCoordinates.Value)}");
+                    board.MovePiece(bestMove.Piece, bestMove.MoveCoordinates.Key, bestMove.MoveCoordinates.Value);
+                    validMove = true;
+
+                    // see if there's a resulting check
+                    if ((board.ColorToMove == ColorEnum.Black && board.WhiteKing.IsInCheck(board)) || (board.ColorToMove == ColorEnum.White && board.BlackKing.IsInCheck(board)))
+                    {
+                        Console.WriteLine("check");
+                    }
                 }
                 else if (command.Trim() == "0-0")
                 {
@@ -123,6 +131,7 @@ namespace Chess
 
             Console.WriteLine($"check mate - game over. { (board.WhiteKing.IsCheckMate(board) ? ColorEnum.Black.ToString() : ColorEnum.White.ToString()) } wins!");
             Console.WriteLine($"black score: {board.BlackScore}, white score: {board.WhiteScore}");
+            Console.ReadLine();
         }
     }
 }
