@@ -1,10 +1,12 @@
 ﻿<Properties StartupConfiguration="{E2E6BF67-78F6-47CC-914F-8B1BAF85C569}|Default">
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Chess/Class/Pieces/Knight.cs" Line="7" Column="19" />
-      <File FileName="Chess/Program.cs" Line="41" Column="46" />
-      <File FileName="Chess/Class/Board.cs" Line="424" Column="1" />
-      <File FileName="Chess/Class/Pieces/Pawn.cs" Line="5" Column="2" />
+      <File FileName="Chess/Program.cs" Line="152" Column="1" />
+      <File FileName="Chess/Class/Board.cs" Line="565" Column="34" />
+      <File FileName="Chess/Class/Pieces/King.cs" Line="97" Column="44" />
+      <File FileName="Chess/Class/Move.cs" Line="60" Column="14" />
+      <File FileName="Chess/Class/Pieces/Knight.cs" Line="88" Column="44" />
+      <File FileName="Chess/Class/Pieces/Pawn.cs" Line="51" Column="85" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,12 +14,18 @@
           <Node name="Chess" expanded="True">
             <Node name="Chess" expanded="True">
               <Node name="Class" expanded="True">
-                <Node name="Pieces" expanded="True">
-                  <Node name="Pawn.cs" selected="True" />
-                </Node>
+                <Node name="Enum" expanded="True" />
+                <Node name="Pieces" expanded="True" />
+                <Node name="Board.cs" selected="True" />
               </Node>
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>islanders.Where(e =&gt; e.CanBeLight || e.CanBeHeavy).ToList()</Value>
+          <Value>this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y]</Value>
         </State>
       </Pad>
     </Pads>
@@ -26,10 +34,7 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|anycpu" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/caleefulling/Projects/Chess/Chess/Program.cs" relfile="Chess/Program.cs" line="155" column="1" />
-      <Breakpoint file="/Users/caleefulling/Projects/Chess/Chess/Class/Move.cs" relfile="Chess/Class/Move.cs" line="39" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

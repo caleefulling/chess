@@ -80,7 +80,7 @@ namespace Chess.Class
 
         public void CalculateMoveScore()
         {
-            this.Score = (this.AtRiskValue * 45) + (this.OffenseScore * 45) + (this.MoveLocationScore * 10);
+            this.Score = (this.AtRiskValue * 40) + (this.OffenseScore * 50) + (this.MoveLocationScore * 10);
         }
     }
 }

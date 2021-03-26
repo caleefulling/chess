@@ -63,7 +63,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
+                if (board.InRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
@@ -75,12 +75,8 @@ namespace Chess.Class.Pieces
                         if (piece.Color != this.Color)
                         {
                             availableMoves.Add(new KeyValuePair<int, int>(row, col));
-                            break;
                         }
-                        else
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
                 else
@@ -117,7 +113,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
+                if (board.InRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
@@ -177,7 +173,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
+                if (board.InRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)

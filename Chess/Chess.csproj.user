@@ -3,4 +3,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartArguments>false</StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'manual' ">
+    <StartAction>Project</StartAction>
+    <StartArguments>true</StartArguments>
+  </PropertyGroup>
 </Project>

@@ -40,7 +40,7 @@ namespace Chess.Class.Board
             }
             else
             {
-                // standard board initiation 
+                // standard board initialization 
                 this.Instance[0, 0] = new Rook(0, 0, ColorEnum.Black);
                 this.Instance[0, 1] = new Knight(0, 1, ColorEnum.Black);
                 this.Instance[0, 2] = new Bishop(0, 2, ColorEnum.Black);
@@ -272,6 +272,7 @@ namespace Chess.Class.Board
         public KeyValuePair<int, int> ConvertNotationForMove(string move)
         {
             var moveArray = move.ToCharArray();
+
             int column = 0;
             switch (moveArray[0].ToString().ToLower())
             {
@@ -401,12 +402,12 @@ namespace Chess.Class.Board
             return notation;
         }
 
-        public void MovePiece(IPiece piece, int x, int y)
+        public void MovePiece(IPiece piece, int row, int column)
         {
-            if (this.Instance[x, y] != null)
+            if (this.Instance[row, column] != null)
             {
                 // is a capture. update scores
-                var capturedPiece = this.Instance[x, y];
+                var capturedPiece = this.Instance[row, column];
                 switch (capturedPiece.Color)
                 {
                     case ColorEnum.Black:
@@ -422,12 +423,12 @@ namespace Chess.Class.Board
                 }
             }
 
-            this.Instance[x, y] = piece;
+            this.Instance[row, column] = piece;
             this.Instance[piece.CurrentLocation_x, piece.CurrentLocation_y] = null;
-            piece.Move(x, y);
+            piece.Move(row, column);
 
             // pawn promotion
-            if (piece.Type == TypeEnum.Pawn && (this.ColorToMove == ColorEnum.White && x == 0) || (this.ColorToMove == ColorEnum.Black && x == 7))
+            if (piece.Type == TypeEnum.Pawn && ((this.ColorToMove == ColorEnum.White && row == 0) || (this.ColorToMove == ColorEnum.Black && row == 7)))
             {
                 PromotePawn(piece);
             }
@@ -463,15 +464,12 @@ namespace Chess.Class.Board
             }
         }
 
-        public object DeepClone<T>(T obj)
+        public bool InRange(int row, int column)
         {
-            using (var ms = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(ms, obj);
-                ms.Position = 0;
-                return formatter.Deserialize(ms);
-            }
+            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+                return true;
+
+            return false;
         }
 
         public Move? FindBestMove_OneLayer(Board board, int layer)
@@ -486,7 +484,7 @@ namespace Chess.Class.Board
             // function for taking the board and finding the point value of pieces currently at risk
             // call this before the move and then after, and compare the point value difference (ie did the move result in an at risk change?)
             var currentSideRiskValue = board.CurrentSideRiskValue();
-            var currentSideOffenseValue = board.CurrentSideOffenseValue();
+            var currentSideOffenseValue = board.GetCurrentSideOffenseValue();
 
             foreach (var piece in Instance)
             {
@@ -496,27 +494,23 @@ namespace Chess.Class.Board
                     foreach (var move in availableMoves)
                     {
                         var pieceCopy = (IPiece)board.DeepClone(piece);
-                        var simBoard = (Board)board.DeepClone(board);
-                        simBoard.MovePiece(pieceCopy, move.MoveCoordinates.Key, move.MoveCoordinates.Value);
-                        move.AtRiskValue = simBoard.CurrentSideRiskValue() - currentSideRiskValue;
-                        move.OffenseScore = simBoard.CurrentSideOffenseValue() + move.CaptureValue - currentSideOffenseValue;
+                        var boardCopy = (Board)board.DeepClone(board);
+                        boardCopy.MovePiece(pieceCopy, move.MoveCoordinates.Key, move.MoveCoordinates.Value);
+                        move.AtRiskValue = boardCopy.CurrentSideRiskValue() - currentSideRiskValue;
+                        move.OffenseScore = boardCopy.GetCurrentSideOffenseValue() + move.CaptureValue - currentSideOffenseValue;
                         move.CalculateMoveScore();
                         moves.Add(move);
                         //_ = simBoard.FindBestMove_OneLayer(simBoard, layer + 1);
-
                     }
                 }
             }
 
             return moves.OrderBy(e => e.Score).FirstOrDefault();
-
-            //return moves.OrderByDescending(e => e.IsCapture).ThenByDescending(e => e.CaptureValue).ThenBy(e => e.AtRiskValue).ThenBy(e => e.MoveLocationScore).FirstOrDefault();
         }
 
         public int CurrentSideRiskValue()
         {
             List<KeyValuePair<int, int>> defenseAvailableMoves = new List<KeyValuePair<int, int>>();
-            int riskValue = 0;
             foreach (var piece in this.Instance)
             {
                 if (piece != null && piece.Color != this.ColorToMove)
@@ -525,6 +519,7 @@ namespace Chess.Class.Board
                 }
             }
 
+            int riskValue = 0;
             foreach (var piece in this.Instance)
             {
                 if (piece != null && piece.Color == this.ColorToMove)
@@ -540,7 +535,7 @@ namespace Chess.Class.Board
             return riskValue;
         }
 
-        public int CurrentSideOffenseValue()
+        public int GetCurrentSideOffenseValue()
         {
             List<KeyValuePair<int, int>> offenseAvailableMoves = new List<KeyValuePair<int, int>>();
             int riskValue = 0;
@@ -567,5 +562,15 @@ namespace Chess.Class.Board
             return riskValue;
         }
 
+        public object DeepClone<T>(T obj)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, obj);
+                ms.Position = 0;
+                return formatter.Deserialize(ms);
+            }
+        }
     }
 }

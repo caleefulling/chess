@@ -48,8 +48,8 @@ namespace Chess.Class.Pieces
                 availableMoves.Add(new KeyValuePair<int, int>(this.CurrentLocation_x + (1 * colorEnumMultiplier), this.CurrentLocation_y));
             }
 
-            // on home row, row +/- 2 available move
-            if (!this.HasMoved)
+            // on home row, row +/- 2 available move. extra logic is because of the 
+            if (!this.HasMoved && this.CurrentLocation_x + (2 * colorEnumMultiplier) >= 0 && this.CurrentLocation_x + (2 * colorEnumMultiplier) <= 7)
             {
                 if (board.Instance[this.CurrentLocation_x + (2 * colorEnumMultiplier), this.CurrentLocation_y] == null)
                 {
@@ -76,7 +76,7 @@ namespace Chess.Class.Pieces
         {
             var row = this.CurrentLocation_x + rowInterval;
             var column = this.CurrentLocation_y + colInterval;
-            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+            if (board.InRange(row, column))
             {
                 var piece = board.Instance[row, column];
                 if (piece != null && piece.Color != this.Color)
@@ -98,7 +98,7 @@ namespace Chess.Class.Pieces
             }
 
             // on home row, row +/- 2 available move
-            if (!this.HasMoved)
+            if (!this.HasMoved && this.CurrentLocation_x + (2 * colorEnumMultiplier) >= 0 && this.CurrentLocation_x + (2 * colorEnumMultiplier) <= 7)
             {
                 if (board.Instance[this.CurrentLocation_x + (2 * colorEnumMultiplier), this.CurrentLocation_y] == null)
                 {
@@ -125,7 +125,7 @@ namespace Chess.Class.Pieces
         {
             var row = this.CurrentLocation_x + rowInterval;
             var column = this.CurrentLocation_y + colInterval;
-            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+            if (board.InRange(row, column))
             {
                 var piece = board.Instance[row, column];
                 if (piece != null && piece.Color != this.Color)

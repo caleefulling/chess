@@ -58,7 +58,7 @@ namespace Chess.Class.Pieces
         {
             var row = this.CurrentLocation_x + rowInterval;
             var column = this.CurrentLocation_y + colInterval;
-            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+            if (board.InRange(row, column))
             {
                 var piece = board.Instance[row, column];
                 if (piece == null || (piece != null && piece.Color != this.Color))
@@ -94,7 +94,7 @@ namespace Chess.Class.Pieces
         {
             var row = this.CurrentLocation_x + rowInterval;
             var column = this.CurrentLocation_y + colInterval;
-            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+            if (board.InRange(row, column))
             {
                 var piece = board.Instance[row, column];
                 if (piece == null || (piece != null && piece.Color != this.Color))
@@ -150,9 +150,9 @@ namespace Chess.Class.Pieces
 
         public bool IsStaleMate(Board.Board board)
         {
-            //  always be stalemate in the beginning
+            //  how to avoid always being stalemate in the beginning?
 
-            // king has no "legal" moves, particularly because of resulting checks 
+            // side has no "legal" moves, particularly because of resulting checks 
             foreach (var move in this.AvailableMoves(board))
             {
 
@@ -161,7 +161,7 @@ namespace Chess.Class.Pieces
             return false;
         }
 
-        public bool IsCheckMate(Board.Board board)
+        public (bool, bool) IsCheckOrMate(Board.Board board)
         {
             bool isInCheck = false;
             foreach (var piece in board.Instance)
@@ -181,14 +181,14 @@ namespace Chess.Class.Pieces
                         var kingMoves = this.AvailableMoves(board);
                         foreach (var kingMove in kingMoves)
                         {
-                            // simulate each move on a new copy of the board to see if it results in check
+                            // simulate moves on a board copy to see if it results in check
                             var kingCopy = (King)board.DeepClone(this);
-                            var simBoard = (Board.Board)board.DeepClone(board);
-                            simBoard.MovePiece(kingCopy, kingMove.Key, kingMove.Value);
-                            if (!kingCopy.IsInCheck(simBoard))
+                            var boardCopy = (Board.Board)board.DeepClone(board);
+                            boardCopy.MovePiece(kingCopy, kingMove.Key, kingMove.Value);
+                            if (!kingCopy.IsInCheck(boardCopy))
                             {
                                 // has an available move, not a mate
-                                return false;
+                                return (true, false);
                             }
                         }
 
@@ -198,19 +198,18 @@ namespace Chess.Class.Pieces
                         {
                             if (defensePiece != null && defensePiece.Color != piece.Color)
                             {
-                                // 2. see if a defense piece can capture the piece putting king in check
                                 var defensePieceMoves = defensePiece.AvailableMoves(board);
+                                // 2. see if a defense piece can capture the piece putting king in check
                                 if (defensePieceMoves.Contains(new KeyValuePair<int, int>(piece.CurrentLocation_x, piece.CurrentLocation_y)))
                                 {
-                                    // can capture piece putting king in check
-                                    return false;
+                                    // can capture piece
+                                    return (true, false);
                                 }
-
-                                // 3. see if a defense piece can intercept the check path
+                                // 3. see if any defenses piece can intercept the check path
                                 if (defensePieceMoves.Any(x => checkPath.Any(e => e.Key == x.Key && e.Value == x.Value)))
                                 {
                                     // can intercept check
-                                    return false;
+                                    return (true, false);
                                 }
                             }
                         }
@@ -218,20 +217,17 @@ namespace Chess.Class.Pieces
                 }
             }
 
-            return (isInCheck && true);
+            return (isInCheck, true);
         }
+
 
         public (bool canCastle, string message) CanCastleKingSide(Board.Board board)
         {
             if (this.HasMoved)
-            {
                 return (false, "king has moved");
-            }
 
             if (this.IsInCheck(board))
-            {
                 return (false, "king is in check");
-            }
 
             IPiece rookSpot;
             if (this.Color == ColorEnum.Black)
@@ -295,14 +291,10 @@ namespace Chess.Class.Pieces
         public (bool canCastle, string message) CanCastleQueenSide(Board.Board board)
         {
             if (this.HasMoved)
-            {
                 return (false, "king has moved");
-            }
 
             if (this.IsInCheck(board))
-            {
                 return (false, "king is in check");
-            }
 
             IPiece rookSpot;
             if (this.Color == ColorEnum.Black)

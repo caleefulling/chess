@@ -55,7 +55,7 @@ namespace Chess.Class.Pieces
         {
             var row = this.CurrentLocation_x + rowInterval;
             var column = this.CurrentLocation_y + colInterval;
-            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+            if (board.InRange(row, column))
             {
                 var piece = board.Instance[row, column];
                 if (piece == null || (piece != null && piece.Color != Color))
@@ -85,7 +85,7 @@ namespace Chess.Class.Pieces
         {
             var row = this.CurrentLocation_x + rowInterval;
             var column = this.CurrentLocation_y + colInterval;
-            if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
+            if (board.InRange(row, column))
             {
                 var piece = board.Instance[row, column];
                 if (piece == null)
