@@ -464,7 +464,7 @@ namespace Chess.Class.Board
             }
         }
 
-        public bool InRange(int row, int column)
+        public bool IsInRange(int row, int column)
         {
             if (row >= 0 && row <= 7 && column >= 0 && column <= 7)
                 return true;
@@ -495,11 +495,28 @@ namespace Chess.Class.Board
                     {
                         var pieceCopy = (IPiece)board.DeepClone(piece);
                         var boardCopy = (Board)board.DeepClone(board);
+
+                        var currentSideRiskValueAfter = boardCopy.CurrentSideRiskValue();
+                        var currentSideOffenseValueAfter = boardCopy.GetCurrentSideOffenseValue();
+
                         boardCopy.MovePiece(pieceCopy, move.MoveCoordinates.Key, move.MoveCoordinates.Value);
-                        move.AtRiskValue = boardCopy.CurrentSideRiskValue() - currentSideRiskValue;
-                        move.OffenseScore = boardCopy.GetCurrentSideOffenseValue() + move.CaptureValue - currentSideOffenseValue;
+                        move.AtRiskValue = currentSideRiskValueAfter - currentSideRiskValue;
+                        move.OffenseScore = currentSideOffenseValueAfter + move.CaptureValue - currentSideOffenseValue;
                         move.CalculateMoveScore();
                         moves.Add(move);
+                        Console.WriteLine($"{piece.Color}\t" +
+                            $"{piece.Type}\t" +
+                            $"#\t" +
+                            $"{move.CaptureValue}\t" +
+                            $"{piece.CurrentLocation_x}\t" +
+                            $"{piece.CurrentLocation_y}\t" +
+                            $"{move.MoveCoordinates.Key}\t" +
+                            $"{move.MoveCoordinates.Value}\t" +
+                            $"{currentSideRiskValue}\t" +
+                            $"{currentSideRiskValueAfter}\t" +
+                            $"{currentSideOffenseValue}\t" +
+                            $"{currentSideOffenseValueAfter}");
+
                         //_ = simBoard.FindBestMove_OneLayer(simBoard, layer + 1);
                     }
                 }

@@ -56,9 +56,10 @@ namespace Chess.Class.Pieces
 
         public void GetAvailableMove(Board.Board board, List<KeyValuePair<int, int>> availableMoves, int rowInterval, int colInterval)
         {
+
             var row = this.CurrentLocation_x + rowInterval;
             var column = this.CurrentLocation_y + colInterval;
-            if (board.InRange(row, column))
+            if (board.IsInRange(row, column))
             {
                 var piece = board.Instance[row, column];
                 if (piece == null || (piece != null && piece.Color != this.Color))
@@ -87,6 +88,16 @@ namespace Chess.Class.Pieces
             GetAvailableMoveWithDetails(board, availableMoves, 1, 0);
             GetAvailableMoveWithDetails(board, availableMoves, 1, 1);
 
+            if (CanCastleKingSide(board).CanCastle)
+            {
+
+            }
+
+            if (CanCastleQueenSide(board).CanCastle)
+            {
+
+            }
+
             return availableMoves;
         }
 
@@ -94,7 +105,7 @@ namespace Chess.Class.Pieces
         {
             var row = this.CurrentLocation_x + rowInterval;
             var column = this.CurrentLocation_y + colInterval;
-            if (board.InRange(row, column))
+            if (board.IsInRange(row, column))
             {
                 var piece = board.Instance[row, column];
                 if (piece == null || (piece != null && piece.Color != this.Color))
@@ -161,9 +172,10 @@ namespace Chess.Class.Pieces
             return false;
         }
 
-        public (bool, bool) IsCheckOrMate(Board.Board board)
+        public (bool IsCheck, bool IsMate) IsCheckOrMate(Board.Board board)
         {
             bool isInCheck = false;
+            var watch = new System.Diagnostics.Stopwatch();
             foreach (var piece in board.Instance)
             {
                 if (piece != null && piece.Type != TypeEnum.King && piece.Color != this.Color)
@@ -221,7 +233,7 @@ namespace Chess.Class.Pieces
         }
 
 
-        public (bool canCastle, string message) CanCastleKingSide(Board.Board board)
+        public (bool CanCastle, string Error) CanCastleKingSide(Board.Board board)
         {
             if (this.HasMoved)
                 return (false, "king has moved");
@@ -229,12 +241,7 @@ namespace Chess.Class.Pieces
             if (this.IsInCheck(board))
                 return (false, "king is in check");
 
-            IPiece rookSpot;
-            if (this.Color == ColorEnum.Black)
-                rookSpot = board.Instance[0, 7];
-            else
-                rookSpot = board.Instance[7, 7];
-
+            IPiece rookSpot = this.Color == ColorEnum.Black ? board.Instance[0, 7] : board.Instance[7, 7];
             if (rookSpot != null && rookSpot.Type == TypeEnum.Rook && rookSpot.Color == this.Color)
             {
                 Rook rook = (Rook)rookSpot;
@@ -288,7 +295,7 @@ namespace Chess.Class.Pieces
             }
         }
 
-        public (bool canCastle, string message) CanCastleQueenSide(Board.Board board)
+        public (bool CanCastle, string Error) CanCastleQueenSide(Board.Board board)
         {
             if (this.HasMoved)
                 return (false, "king has moved");
@@ -296,12 +303,7 @@ namespace Chess.Class.Pieces
             if (this.IsInCheck(board))
                 return (false, "king is in check");
 
-            IPiece rookSpot;
-            if (this.Color == ColorEnum.Black)
-                rookSpot = board.Instance[0, 0];
-            else
-                rookSpot = board.Instance[7, 0];
-
+            IPiece rookSpot = this.Color == ColorEnum.Black ? board.Instance[0, 0] : board.Instance[7, 0];
             if (rookSpot != null && rookSpot.Type == TypeEnum.Rook && rookSpot.Color == this.Color)
             {
                 var rook = (Rook)rookSpot;
@@ -367,7 +369,7 @@ namespace Chess.Class.Pieces
             }
         }
 
-        public (bool castled, string message) CastleKingSide(Board.Board board)
+        public (bool Castled, string Error) CastleKingSide(Board.Board board)
         {
             // store current pos in case of failed castle from check
             var beginning_x = this.CurrentLocation_x;
@@ -412,7 +414,7 @@ namespace Chess.Class.Pieces
             return (true, string.Empty);
         }
 
-        public (bool castled, string message) CastleQueenSide(Board.Board board)
+        public (bool Castled, string Error) CastleQueenSide(Board.Board board)
         {
             // store current pos in case of failed castle
             var beginning_x = this.CurrentLocation_x;

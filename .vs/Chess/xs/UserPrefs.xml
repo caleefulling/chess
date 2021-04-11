@@ -1,22 +1,20 @@
-﻿<Properties StartupConfiguration="{E2E6BF67-78F6-47CC-914F-8B1BAF85C569}|Default">
-  <MonoDevelop.Ide.Workbench>
+﻿<Properties StartupConfiguration="{E2E6BF67-78F6-47CC-914F-8B1BAF85C569}|manual">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Chess/Class/Pieces/Knight.cs">
     <Files>
-      <File FileName="Chess/Program.cs" Line="152" Column="1" />
-      <File FileName="Chess/Class/Board.cs" Line="565" Column="34" />
-      <File FileName="Chess/Class/Pieces/King.cs" Line="97" Column="44" />
-      <File FileName="Chess/Class/Move.cs" Line="60" Column="14" />
-      <File FileName="Chess/Class/Pieces/Knight.cs" Line="88" Column="44" />
-      <File FileName="Chess/Class/Pieces/Pawn.cs" Line="51" Column="85" />
+      <File FileName="Chess/Class/Board.cs" Line="582" Column="32" />
+      <File FileName="Chess/Program.cs" Line="40" Column="55" />
+      <File FileName="Chess/Class/Pieces/Knight.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
+          <Option id="ShowAllFiles" value="True" />
           <Node name="Chess" expanded="True">
             <Node name="Chess" expanded="True">
               <Node name="Class" expanded="True">
-                <Node name="Enum" expanded="True" />
-                <Node name="Pieces" expanded="True" />
-                <Node name="Board.cs" selected="True" />
+                <Node name="Pieces" expanded="True">
+                  <Node name="Knight.cs" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>
@@ -34,7 +32,9 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|anycpu" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/caleefulling/Projects/Chess/Chess/Class/Pieces/King.cs" relfile="Chess/Class/Pieces/King.cs" line="185" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

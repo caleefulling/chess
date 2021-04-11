@@ -63,7 +63,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (board.InRange(row, col))
+                if (board.IsInRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
@@ -113,7 +113,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (board.InRange(row, col))
+                if (board.IsInRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
@@ -124,10 +124,7 @@ namespace Chess.Class.Pieces
                     {
                         if (piece.Color != this.Color)
                         {
-                            var move = new Move(this, new KeyValuePair<int, int>(row, col));
-                            move.IsCapture = true;
-                            move.CaptureValue = piece.Value;
-                            availableMoves.Add(move);
+                            availableMoves.Add(new Move(this, new KeyValuePair<int, int>(row, col), piece));
                         }
                         break;
                     }
@@ -173,7 +170,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (board.InRange(row, col))
+                if (board.IsInRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)

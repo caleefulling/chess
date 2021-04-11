@@ -21,16 +21,17 @@ namespace Chess
                 validMove = false;
 
                 var command = Console.ReadLine();
-                if (command.Contains("stats"))
+                if (command.Trim() == "stats")
                 {
                     Console.WriteLine($"black score: {board.BlackScore}, white score: {board.WhiteScore}");
                 }
-                else if (command.Contains("best"))
+                else if (command.Trim() == "best")
                 {
                     var bestMove = board.FindBestMove_OneLayer(board, 1);
                     Console.WriteLine($"best move - {board.ConvertMoveForNotation(bestMove.Piece.CurrentLocation_x, bestMove.Piece.CurrentLocation_y)} {board.ConvertMoveForNotation(bestMove.MoveCoordinates.Key, bestMove.MoveCoordinates.Value)}");
-                    board.MovePiece(bestMove.Piece, bestMove.MoveCoordinates.Key, bestMove.MoveCoordinates.Value);
-                    validMove = true;
+                    //auto-move
+                    //board.MovePiece(bestMove.Piece, bestMove.MoveCoordinates.Key, bestMove.MoveCoordinates.Value);
+                    //validMove = true;
                 }
                 else if (command.Trim() == "0-0")
                 {
@@ -38,21 +39,21 @@ namespace Chess
                     var king = board.ColorToMove == ColorEnum.Black ? board.BlackKing : board.WhiteKing;
                     // maybe to do - move castling to board Move function and add it to AvailableMovesWithDetails? (so it can be used in best move)
                     var canCastleResult = king.CanCastleKingSide(board);
-                    if (canCastleResult.canCastle)
+                    if (canCastleResult.CanCastle)
                     {
                         var castleResult = king.CastleKingSide(board);
-                        if (castleResult.castled)
+                        if (castleResult.Castled)
                         {
                             validMove = true;
                         }
                         else
                         {
-                            Console.WriteLine($"can't castle kingside, {castleResult.message}");
+                            Console.WriteLine($"can't castle kingside, {castleResult.Error}");
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"can't castle kingside, {canCastleResult.message}");
+                        Console.WriteLine($"can't castle kingside, {canCastleResult.Error}");
                     }
                 }
                 else if (command.Trim() == "0-0-0")
@@ -60,21 +61,21 @@ namespace Chess
                     // castle queenside
                     var king = board.ColorToMove == ColorEnum.Black ? board.BlackKing : board.WhiteKing;
                     var canCastleResult = king.CanCastleQueenSide(board);
-                    if (canCastleResult.canCastle)
+                    if (canCastleResult.CanCastle)
                     {
                         var castleResult = king.CastleQueenSide(board);
-                        if (castleResult.castled)
+                        if (castleResult.Castled)
                         {
                             validMove = true;
                         }
                         else
                         {
-                            Console.WriteLine($"can't castle queenside, {castleResult.message}");
+                            Console.WriteLine($"can't castle queenside, {castleResult.Error}");
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"can't castle queenside, {canCastleResult.message}");
+                        Console.WriteLine($"can't castle queenside, {canCastleResult.Error}");
                     }
                 }
                 else
@@ -121,14 +122,13 @@ namespace Chess
                     if (board.ColorToMove == ColorEnum.Black)
                     {
                         var isCheckOrMate = board.WhiteKing.IsCheckOrMate(board);
-                        if (isCheckOrMate.Item1 && isCheckOrMate.Item2)
+                        if (isCheckOrMate.IsMate && isCheckOrMate.IsCheck)
                         {
-                            // mate
+                            // check & mate
                             isCheckMate = true;
                             winner = ColorEnum.Black;
-
                         }
-                        else if (isCheckOrMate.Item1)
+                        else if (isCheckOrMate.IsCheck)
                         {
                             // check
                             Console.WriteLine("check");
@@ -137,13 +137,13 @@ namespace Chess
                     else if (board.ColorToMove == ColorEnum.White)
                     {
                         var isCheckOrMate = board.BlackKing.IsCheckOrMate(board);
-                        if (isCheckOrMate.Item1 && isCheckOrMate.Item2)
+                        if (isCheckOrMate.IsMate && isCheckOrMate.IsCheck)
                         {
                             // check & mate
                             isCheckMate = true;
                             winner = ColorEnum.White;
                         }
-                        else if (isCheckOrMate.Item1)
+                        else if (isCheckOrMate.IsCheck)
                         {
                             // check
                             Console.WriteLine("check");

@@ -56,7 +56,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (board.InRange(row, col))
+                if (board.IsInRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
@@ -99,7 +99,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (board.InRange(row, col))
+                if (board.IsInRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
@@ -146,7 +146,7 @@ namespace Chess.Class.Pieces
             {
                 row += rowInterval;
                 col += colInterval;
-                if (board.InRange(row, col))
+                if (board.IsInRange(row, col))
                 {
                     var piece = board.Instance[row, col];
                     if (piece == null)
